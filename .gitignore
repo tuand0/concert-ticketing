@@ -1,0 +1,25 @@
+# backend
+back/target/
+back/.mvn/
+back/*.log
+
+# frontend
+front/node_modules/
+front/dist/
+front/.angular/
+front/.cache/
+front/.vscode/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+
+# logs
+*.log
+
+*.pdf
+*.png
