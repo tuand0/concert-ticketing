@@ -1,0 +1,12 @@
+.event-card {
+    border-radius: 6px;
+  box-shadow: 0 0 5px 0 #0000002e;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  overflow: hidden;
+  position: relative;
+  width: 15em;
+  height: 20em;
+}

@@ -1,0 +1,12 @@
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em;
+    background-color: gray;
+    border-radius: 5em;
+}
+
+.pi {
+    font-size: 2em;
+}
