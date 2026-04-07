@@ -1,113 +1,83 @@
 package fr.istic.taa.jaxrs.domain;
 
+import fr.istic.taa.jaxrs.domain.enums.StatutConcert;
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-public class Concert implements Serializable {
-    @Id
-    @GeneratedValue
-    private Long concertId;
+public class Concert {
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "concerts_artistes",
-            joinColumns = @JoinColumn(name = "concert_id"),
-            inverseJoinColumns = @JoinColumn(name = "artiste_id")
-    )
-    private Set<Artiste> artistes = new HashSet<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String titre;
+
+    private String artiste;
+
+    @Column(length = 1000)
+    private String description;
+
+    private LocalDateTime dateConcert;
 
     private String lieu;
 
-    private LocalDateTime date;
+    private String ville;
 
-    private String genre;
+    private int places;
 
-    private Long capacite;
+    @Enumerated(EnumType.STRING)
+    private StatutConcert statut;
 
-    private Float popularite;
+    @ManyToOne
+    @JoinColumn(name = "organisateur_id")
+    private Organisateur organisateur;
 
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "administrateur_id")
+    private Administrateur administrateurValidateur;
 
-    @OneToMany(mappedBy = "concert", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "concert")
     private List<Ticket> tickets = new ArrayList<>();
 
-    // region Generated code
-    public Set<Artiste> getArtistes() {
-        return artistes;
+    public Concert() {
     }
 
-    public void setArtistes(Set<Artiste> artistes) {
-        this.artistes = artistes;
-    }
-
-    @Override
-    public String toString() {
-        return "Concert{" +
-                "concertId=" + concertId +
-                ", artistes=" + artistes +
-                ", lieu='" + lieu + '\'' +
-                ", date=" + date +
-                ", genre='" + genre + '\'' +
-                ", capacite=" + capacite +
-                ", popularite=" + popularite +
-                ", description='" + description + '\'' +
-                ", tickets=" + tickets +
-                '}';
-    }
-
-    public Long getConcertId() {
-        return concertId;
-    }
-
-    public void setConcertId(Long concertId) {
-        this.concertId = concertId;
-    }
-
-    public String getLieu() {
-        return lieu;
-    }
-
-    public void setLieu(String lieu) {
+    public Concert(String titre, String artiste, String description,
+                   LocalDateTime dateConcert, String lieu, String ville,
+                   int places, StatutConcert statut, Organisateur organisateur) {
+        this.titre = titre;
+        this.artiste = artiste;
+        this.description = description;
+        this.dateConcert = dateConcert;
         this.lieu = lieu;
+        this.ville = ville;
+        this.places = places;
+        this.statut = statut;
+        this.organisateur = organisateur;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public Long getId() {
+        return id;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public String getTitre() {
+        return titre;
     }
 
-    public String getGenre() {
-        return genre;
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public String getArtiste() {
+        return artiste;
     }
 
-    public Long getCapacite() {
-        return capacite;
-    }
-
-    public void setCapacite(Long capacite) {
-        this.capacite = capacite;
-    }
-
-    public Float getPopularite() {
-        return popularite;
-    }
-
-    public void setPopularite(Float popularite) {
-        this.popularite = popularite;
+    public void setArtiste(String artiste) {
+        this.artiste = artiste;
     }
 
     public String getDescription() {
@@ -118,6 +88,62 @@ public class Concert implements Serializable {
         this.description = description;
     }
 
+    public LocalDateTime getDateConcert() {
+        return dateConcert;
+    }
+
+    public void setDateConcert(LocalDateTime dateConcert) {
+        this.dateConcert = dateConcert;
+    }
+
+    public String getLieu() {
+        return lieu;
+    }
+
+    public void setLieu(String lieu) {
+        this.lieu = lieu;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public int getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(int places) {
+        this.places = places;
+    }
+
+    public StatutConcert getStatut() {
+        return statut;
+    }
+
+    public void setStatut(StatutConcert statut) {
+        this.statut = statut;
+    }
+
+    public Organisateur getOrganisateur() {
+        return organisateur;
+    }
+
+    public void setOrganisateur(Organisateur organisateur) {
+        this.organisateur = organisateur;
+    }
+
+    public Administrateur getAdministrateurValidateur() {
+        return administrateurValidateur;
+    }
+
+    public void setAdministrateurValidateur(Administrateur administrateurValidateur) {
+        this.administrateurValidateur = administrateurValidateur;
+    }
+
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -125,6 +151,4 @@ public class Concert implements Serializable {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
-
-    // endregion
 }

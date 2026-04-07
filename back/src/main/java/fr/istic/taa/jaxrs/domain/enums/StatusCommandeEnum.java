@@ -1,6 +1,6 @@
 package fr.istic.taa.jaxrs.domain.enums;
 
-public enum StatutCommande {
+public enum StatutCommandeEnum {
     EN_ATTENTE,
     PAYEE,
     ANNULEE

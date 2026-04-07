@@ -1,75 +1,56 @@
 package fr.istic.taa.jaxrs.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.istic.taa.jaxrs.domain.enums.StatutTicket;
 import jakarta.persistence.*;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@NamedQuery(name = "Ticket.existsByPlaceAndConcert", query =
-        "select count(t) > 0 from Ticket t where t.concert = :concert and t.numeroPlace = :place"
-)
-public class Ticket implements Serializable {
+public class Ticket {
+
     @Id
-    @GeneratedValue
-    private Long ticketId;
-
-    private String numeroPlace;
-
-    @Enumerated(EnumType.STRING)
-    private StatutTicketEnum statut;
-
-    private Double prixUnitaire;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private LocalDateTime dateAchat;
 
-    private LocalDateTime dateAnnulation;
+    private BigDecimal prix;
 
-    private LocalDateTime dateRemboursement;
+    @Enumerated(EnumType.STRING)
+    private StatutTicket statut;
 
-    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "commande_id")
+    private Commande commande;
+
+    @ManyToOne
+    @JoinColumn(name = "concert_id")
     private Concert concert;
 
-    @JsonIgnore
     @ManyToOne
-    private Utilisateur utilisateur;
-
-    // region Generated code
-
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     public Ticket() {
     }
 
-    public Ticket(String numeroPlace, Double prixUnitaire, Concert concert) {
-        this.numeroPlace = numeroPlace;
-        this.prixUnitaire = prixUnitaire;
+    public Ticket(LocalDateTime dateAchat, BigDecimal prix,
+                  StatutTicket statut, Commande commande, Concert concert, Client client) {
+        this.dateAchat = dateAchat;
+        this.prix = prix;
+        this.statut = statut;
+        this.commande = commande;
         this.concert = concert;
+        this.client = client;
     }
 
-    public LocalDateTime getDateRemboursement() {
-        return dateRemboursement;
+    public void annuler() {
+        this.statut = StatutTicket.ANNULE;
     }
 
-    public void setDateRemboursement(LocalDateTime dateRemboursement) {
-        this.dateRemboursement = dateRemboursement;
-    }
-
-    public LocalDateTime getDateAnnulation() {
-        return dateAnnulation;
-    }
-
-    public void setDateAnnulation(LocalDateTime dateAnnulation) {
-        this.dateAnnulation = dateAnnulation;
+    public Long getId() {
+        return id;
     }
 
     public LocalDateTime getDateAchat() {
@@ -80,36 +61,28 @@ public class Ticket implements Serializable {
         this.dateAchat = dateAchat;
     }
 
-    public Double getPrixUnitaire() {
-        return prixUnitaire;
+    public BigDecimal getPrix() {
+        return prix;
     }
 
-    public void setPrixUnitaire(Double prixUnitaire) {
-        this.prixUnitaire = prixUnitaire;
+    public void setPrix(BigDecimal prix) {
+        this.prix = prix;
     }
 
-    public StatutTicketEnum getStatut() {
+    public StatutTicket getStatut() {
         return statut;
     }
 
-    public void setStatut(StatutTicketEnum statut) {
+    public void setStatut(StatutTicket statut) {
         this.statut = statut;
     }
 
-    public String getNumeroPlace() {
-        return numeroPlace;
+    public Commande getCommande() {
+        return commande;
     }
 
-    public void setNumeroPlace(String numeroPlace) {
-        this.numeroPlace = numeroPlace;
-    }
-
-    public Long getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
+    public void setCommande(Commande commande) {
+        this.commande = commande;
     }
 
     public Concert getConcert() {
@@ -120,17 +93,11 @@ public class Ticket implements Serializable {
         this.concert = concert;
     }
 
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "ticketId=" + ticketId +
-                ", numeroPlace='" + numeroPlace + '\'' +
-                ", statut=" + statut +
-                ", prixUnitaire=" + prixUnitaire +
-                ", dateAchat=" + dateAchat +
-                ", dateAnnulation=" + dateAnnulation +
-                ", dateRemboursement=" + dateRemboursement +
-                '}';
+    public Client getClient() {
+        return client;
     }
-    // endregion
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }

@@ -1,23 +1,13 @@
 package fr.istic.taa.jaxrs.domain;
 
 import jakarta.persistence.Entity;
-
-import java.time.LocalDate;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class Administrateur extends Personne {
-    private LocalDate dateNomination;
-
+public class Administrateur {
     private Boolean actif;
-
-    // region Generated code
-    public LocalDate getDateNomination() {
-        return dateNomination;
-    }
-
-    public void setDateNomination(LocalDate dateNomination) {
-        this.dateNomination = dateNomination;
-    }
 
     public Boolean getActif() {
         return actif;
@@ -30,11 +20,8 @@ public class Administrateur extends Personne {
     @Override
     public String toString() {
         return "Administrateur{" +
-                "dateNomination=" + dateNomination +
                 ", actif=" + actif +
-                ", personneId=" + personneId +
+                ", id=" + id +
                 '}';
     }
-
-    // endregion
 }

@@ -1,6 +1,6 @@
 package fr.istic.taa.jaxrs.domain.enums;
 
-public enum ModePaiement {
+public enum ModePaiementEnum {
     CARTE_BANCAIRE,
     PAYPAL
 }

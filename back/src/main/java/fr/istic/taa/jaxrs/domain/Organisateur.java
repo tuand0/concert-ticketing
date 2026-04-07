@@ -3,39 +3,29 @@ package fr.istic.taa.jaxrs.domain;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Organisateur extends Personne {
+public class Organisateur extends Utilisateur {
 
-    private String nomStructure;
+    private String nomEntreprise;
 
-    private String numeroSiret;
-
-    private String adresseSiege;
+    private String siret;
 
     private Boolean actif;
 
     // region Generated code
-    public String getNomStructure() {
-        return nomStructure;
+    public String getNomEntreprise() {
+        return nomEntreprise;
     }
 
-    public void setNomStructure(String nomStructure) {
-        this.nomStructure = nomStructure;
+    public void setNomEntreprise(String nomEntreprise) {
+        this.nomEntreprise = nomEntreprise;
     }
 
-    public String getNumeroSiret() {
-        return numeroSiret;
+    public String getSiret() {
+        return siret;
     }
 
-    public void setNumeroSiret(String numeroSiret) {
-        this.numeroSiret = numeroSiret;
-    }
-
-    public String getAdresseSiege() {
-        return adresseSiege;
-    }
-
-    public void setAdresseSiege(String adresseSiege) {
-        this.adresseSiege = adresseSiege;
+    public void setSiret(String siret) {
+        this.siret = siret;
     }
 
     public Boolean getActif() {
@@ -49,11 +39,10 @@ public class Organisateur extends Personne {
     @Override
     public String toString() {
         return "Organisateur{" +
-                "nomStructure='" + nomStructure + '\'' +
-                ", numeroSiret='" + numeroSiret + '\'' +
-                ", adresseSiege='" + adresseSiege + '\'' +
+                "nomEntreprise='" + nomEntreprise + '\'' +
+                ", numeroSiret='" + siret + '\'' +
                 ", actif=" + actif +
-                ", personneId=" + personneId +
+                ", personneId=" + id +
                 '}';
     }
 

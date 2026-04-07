@@ -1,6 +1,6 @@
 package fr.istic.taa.jaxrs.domain.enums;
 
-public enum StatutTicket {
+public enum StatutTicketEnum {
     ACTIF,
     UTILISE,
     ANNULE

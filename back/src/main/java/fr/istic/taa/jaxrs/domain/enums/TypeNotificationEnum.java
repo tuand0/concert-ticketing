@@ -1,6 +1,6 @@
 package fr.istic.taa.jaxrs.domain.enums;
 
-public enum TypeNotification {
+public enum TypeNotificationEnum {
     NOUVEAU_CONCERT,
     RAPPEL,
     ANNULATION,
