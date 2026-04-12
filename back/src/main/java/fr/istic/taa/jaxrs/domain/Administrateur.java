@@ -17,6 +17,8 @@ public class Administrateur extends Utilisateur {
         this.actif = actif;
     }
 
+    public Administrateur(){}
+
     @Override
     public String toString() {
         return "Administrateur{" +
