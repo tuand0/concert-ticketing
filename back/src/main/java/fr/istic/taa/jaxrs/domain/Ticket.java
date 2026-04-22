@@ -1,6 +1,7 @@
 package fr.istic.taa.jaxrs.domain;
 
-import fr.istic.taa.jaxrs.domain.enums.StatutTicket;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.istic.taa.jaxrs.domain.enums.StatutTicketEnum;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -17,8 +18,10 @@ public class Ticket {
 
     private BigDecimal prix;
 
+    private String numeroPlace;
+
     @Enumerated(EnumType.STRING)
-    private StatutTicket statut;
+    private StatutTicketEnum statut;
 
     @ManyToOne
     @JoinColumn(name = "commande_id")
@@ -32,21 +35,34 @@ public class Ticket {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    public Ticket() {
+    @JsonIgnore
+    @ManyToOne
+    private Utilisateur utilisateur;
+
+    public Ticket(String numeroPlace, BigDecimal prix, Concert concert) {
+        this.prix = prix;
+        this.numeroPlace = numeroPlace;
+        this.concert = concert;
     }
 
-    public Ticket(LocalDateTime dateAchat, BigDecimal prix,
-                  StatutTicket statut, Commande commande, Concert concert, Client client) {
-        this.dateAchat = dateAchat;
-        this.prix = prix;
-        this.statut = statut;
-        this.commande = commande;
-        this.concert = concert;
-        this.client = client;
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public String getNumeroPlace() {
+        return numeroPlace;
+    }
+
+    public void setNumeroPlace(String numeroPlace) {
+        this.numeroPlace = numeroPlace;
     }
 
     public void annuler() {
-        this.statut = StatutTicket.ANNULE;
+        this.statut = StatutTicketEnum.ANNULE;
     }
 
     public Long getId() {
@@ -69,11 +85,11 @@ public class Ticket {
         this.prix = prix;
     }
 
-    public StatutTicket getStatut() {
+    public StatutTicketEnum getStatut() {
         return statut;
     }
 
-    public void setStatut(StatutTicket statut) {
+    public void setStatut(StatutTicketEnum statut) {
         this.statut = statut;
     }
 

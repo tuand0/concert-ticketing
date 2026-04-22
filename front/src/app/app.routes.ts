@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { EventCard } from './components/event-card/event-card';
+import {Login} from './components/login/login';
 
 export const routes: Routes = [
     {
@@ -15,5 +16,10 @@ export const routes: Routes = [
         component: EventCard,
       }
     ]
+  },
+  {
+    path: 'login',
+    component: Login,
+    pathMatch: 'full',
   },
 ];

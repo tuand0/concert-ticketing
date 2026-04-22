@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "role")
 public class Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
+
+    private String userNom;
 
     private String nom;
 
@@ -52,6 +56,14 @@ public class Utilisateur {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getUserNom() {
+        return userNom;
+    }
+
+    public void setUserNom(String userNom) {
+        this.userNom = userNom;
     }
 
     public String getPrenom() {

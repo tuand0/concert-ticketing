@@ -11,6 +11,7 @@ public class Organisateur extends Utilisateur {
 
     private Boolean actif;
 
+    public Organisateur() {}
     // region Generated code
     public String getNomEntreprise() {
         return nomEntreprise;

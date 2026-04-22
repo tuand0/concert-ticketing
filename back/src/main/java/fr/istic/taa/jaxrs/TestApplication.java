@@ -3,7 +3,7 @@ package fr.istic.taa.jaxrs;
 import fr.istic.taa.jaxrs.configuration.ClientErrorExceptionMapper;
 import fr.istic.taa.jaxrs.configuration.ConstraintViolationExceptionMapper;
 import fr.istic.taa.jaxrs.configuration.MyObjectMapperProvider;
-import fr.istic.taa.jaxrs.rest.ArtisteResource;
+//import fr.istic.taa.jaxrs.rest.ArtisteResource;
 import fr.istic.taa.jaxrs.rest.ConcertResource;
 import fr.istic.taa.jaxrs.rest.SwaggerResource;
 import fr.istic.taa.jaxrs.rest.TicketResource;
@@ -22,7 +22,6 @@ public class TestApplication extends Application {
             OpenApiResource.class,
             ConcertResource.class,
             TicketResource.class,
-            ArtisteResource.class,
             ClientErrorExceptionMapper.class,
             ConstraintViolationExceptionMapper.class,
             MyObjectMapperProvider.class

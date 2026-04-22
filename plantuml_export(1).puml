@@ -1,0 +1,145 @@
+@startuml DiagrammeSimplifieConcert
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam backgroundColor white
+
+class Utilisateur {
+  - id: Long
+  - nom: String
+  - prenom: String
+  - email: String
+  - motDePasse: String
+  - telephone: String
+  --
+  + seConnecter(): void
+  + modifierProfil(): void
+}
+
+class Client {
+  - idClient: int
+}
+
+
+class Organisateur {
+  - siret: string
+  - nomEntreprise: string
+  - actif: boolean
+  --
+  + creerEvenement(): Concert
+  + modifierEvenement(): void
+  + supprimerEvenement(): void
+  + consulterStatistiques(): Rapport
+  + envoyerNotification(): void
+}
+
+class Administrateur {
+  - actif: boolean
+  --
+  + validerEvenement(): void
+  + modererContenu(): void
+  + gererUtilisateurs(): void
+}
+
+class Concert {
+  - id: Long
+  - titre: String
+  - artiste: String
+  - description: String
+  - date: LocalDateTime
+  - lieu: String
+  - ville: String
+  - place: int
+  - statut: StatutConcert
+  --
+  + verifierDisponibilite(): boolean
+  + calculerPlacesRestantes(): int
+}
+
+class Ticket {
+  - id: Long
+  - numeroTicket: String
+  - prix: BigDecimal
+  - dateAchat: LocalDateTime
+  - statut: StatutTicket
+  --
+  + genererQRCode(): String
+  + annuler(): boolean
+}
+
+class Commande {
+  - id: Long
+  - numeroCommande: String
+  - dateCommande: LocalDateTime
+  - montantTotal: BigDecimal
+  - statut: StatutCommande
+  - modePaiement: ModePaiement
+  --
+  + calculerTotal(): BigDecimal
+  + confirmer(): void
+  + annuler(): boolean
+}
+class Notification {
+  - id: int
+  - titre: string
+  - message: string
+  - type: TypeNotification
+  - dateEnvoi: DateTime
+  - estLue: boolean
+  --
+  + envoyer(): void
+  + marquerCommeLue(): void
+}
+enum StatutConcert {
+  BROUILLON
+  PUBLIE
+  ANNULE
+}
+
+enum StatutTicket {
+  ACTIF
+  UTILISE
+  ANNULE
+}
+
+enum StatutCommande {
+  EN_ATTENTE
+  PAYEE
+  ANNULEE
+}
+
+enum ModePaiement {
+  CARTE_BANCAIRE
+  PAYPAL
+}
+
+enum TypeNotification {
+  NOUVEAU_CONCERT
+  RAPPEL
+  ANNULATION
+  MODIFICATION
+  OFFRE_SPECIALE
+}
+
+' Relations d'héritage
+Utilisateur <|-- Organisateur
+Utilisateur <|-- Administrateur
+Utilisateur <|-- Client
+
+' Relations entre classe
+Organisateur "1" -- "0..*" Concert : crée >
+Concert "1" -- "0..*" Ticket : génère >
+Client "1" -- "0..*" Commande : passe >
+Client "1" -- "0..*" Ticket : possède >
+Utilisateur "0..*" -- "0..*" Notification : reçoit >
+Commande "1" *-- "1..*" Ticket : contient >
+Administrateur "0..1" -- "0..*" Concert : valide >
+
+' Relations avec énumérations
+Notification -- TypeNotification
+Concert -- StatutConcert
+Ticket -- StatutTicket
+Commande -- StatutCommande
+Commande -- ModePaiement
+
+@enduml

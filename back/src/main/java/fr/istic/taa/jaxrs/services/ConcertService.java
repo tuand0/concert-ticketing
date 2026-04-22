@@ -47,6 +47,6 @@ public class ConcertService {
         concert.setDate(dto.getDateTime());
 
         concertDao.save(concert);
-        return concert.getConcertId();
+        return concert.getId();
     }
 }

@@ -1,6 +1,6 @@
 package fr.istic.taa.jaxrs.domain;
 
-import fr.istic.taa.jaxrs.domain.enums.TypeNotification;
+import fr.istic.taa.jaxrs.domain.enums.TypeNotificationEnum;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public class Notification {
     private String message;
 
     @Enumerated(EnumType.STRING)
-    private TypeNotification type;
+    private TypeNotificationEnum type;
 
     private LocalDateTime dateEnvoi;
 
@@ -32,7 +32,7 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(String titre, String message, TypeNotification type, LocalDateTime dateEnvoi, boolean estLue) {
+    public Notification(String titre, String message, TypeNotificationEnum type, LocalDateTime dateEnvoi, boolean estLue) {
         this.titre = titre;
         this.message = message;
         this.type = type;
@@ -68,11 +68,11 @@ public class Notification {
         this.message = message;
     }
 
-    public TypeNotification getType() {
+    public TypeNotificationEnum getType() {
         return type;
     }
 
-    public void setType(TypeNotification type) {
+    public void setType(TypeNotificationEnum type) {
         this.type = type;
     }
 

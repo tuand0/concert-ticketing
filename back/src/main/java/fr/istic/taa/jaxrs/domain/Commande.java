@@ -1,7 +1,7 @@
 package fr.istic.taa.jaxrs.domain;
 
-import fr.istic.taa.jaxrs.domain.enums.ModePaiement;
-import fr.istic.taa.jaxrs.domain.enums.StatutCommande;
+import fr.istic.taa.jaxrs.domain.enums.ModePaiementEnum;
+import fr.istic.taa.jaxrs.domain.enums.StatutCommandeEnum;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -21,10 +21,10 @@ public class Commande {
     private BigDecimal montantTotal;
 
     @Enumerated(EnumType.STRING)
-    private StatutCommande statut;
+    private StatutCommandeEnum statut;
 
     @Enumerated(EnumType.STRING)
-    private ModePaiement modePaiement;
+    private ModePaiementEnum modePaiement;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -37,7 +37,7 @@ public class Commande {
     }
 
     public Commande(LocalDateTime dateCommande, BigDecimal montantTotal,
-                    StatutCommande statut, ModePaiement modePaiement, Client client) {
+                    StatutCommandeEnum statut, ModePaiementEnum modePaiement, Client client) {
         this.dateCommande = dateCommande;
         this.montantTotal = montantTotal;
         this.statut = statut;
@@ -46,7 +46,7 @@ public class Commande {
     }
 
     public BigDecimal calculerTotal() {
-        BigDecimal total = BigDecimal.ZERO;
+        BigDecimal total = new BigDecimal(0);
         for (Ticket ticket : tickets) {
             if (ticket.getPrix() != null) {
                 total = total.add(ticket.getPrix());
@@ -57,11 +57,11 @@ public class Commande {
     }
 
     public void confirmer() {
-        this.statut = StatutCommande.PAYEE;
+        this.statut = StatutCommandeEnum.PAYEE;
     }
 
     public void annuler() {
-        this.statut = StatutCommande.ANNULEE;
+        this.statut = StatutCommandeEnum.ANNULEE;
     }
 
     public Long getId() {
@@ -84,19 +84,19 @@ public class Commande {
         this.montantTotal = montantTotal;
     }
 
-    public StatutCommande getStatut() {
+    public StatutCommandeEnum getStatut() {
         return statut;
     }
 
-    public void setStatut(StatutCommande statut) {
+    public void setStatut(StatutCommandeEnum statut) {
         this.statut = statut;
     }
 
-    public ModePaiement getModePaiement() {
+    public ModePaiementEnum getModePaiement() {
         return modePaiement;
     }
 
-    public void setModePaiement(ModePaiement modePaiement) {
+    public void setModePaiement(ModePaiementEnum modePaiement) {
         this.modePaiement = modePaiement;
     }
 

@@ -16,19 +16,14 @@ public class Client extends Utilisateur {
 
     public Client() {
         super();
-        this.setEstOrganisateur(false);
     }
 
-    public Client(String nom, String prenom, String email, String motDePasse, String telephone) {
-        super(nom, prenom, email, motDePasse, telephone, false);
-    }
-
-    public Integer getIdClient() {
+    public long getIdClient() {
         return id;
     }
 
-    public void setIdClient(Integer id) {
-        this.idClient = idClient;
+    public void setIdClient(long id) {
+        this.id = id;
     }
 
     public List<Commande> getCommandes() {

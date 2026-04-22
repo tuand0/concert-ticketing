@@ -15,3 +15,13 @@
     flex-flow: column nowrap;
     justify-content: space-between;
 }
+
+.app-column {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.app-row {
+  display: flex;
+  flex-flow: row nowrap;
+}

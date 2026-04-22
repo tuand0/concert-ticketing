@@ -1,21 +1,21 @@
 package fr.istic.taa.jaxrs.dao.generic;
 
-import fr.istic.taa.jaxrs.domain.Artiste;
+import fr.istic.taa.jaxrs.domain.old_Artiste;
 import fr.istic.taa.jaxrs.dto.ArtisteSearchDTO;
 import jakarta.persistence.criteria.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtisteDao extends AbstractJpaDao<Long, Artiste> {
+public class ArtisteDao extends AbstractJpaDao<Long, old_Artiste> {
     public ArtisteDao() {
-        super(Artiste.class);
+        super(old_Artiste.class);
     }
 
-    public List<Artiste> searchArtistes(ArtisteSearchDTO searchDTO) {
+    public List<old_Artiste> searchArtistes(ArtisteSearchDTO searchDTO) {
         var cb = entityManager.getCriteriaBuilder();
-        var cr = cb.createQuery(Artiste.class);
-        var root = cr.from(Artiste.class);
+        var cr = cb.createQuery(old_Artiste.class);
+        var root = cr.from(old_Artiste.class);
 
         cr.select(root);
 
