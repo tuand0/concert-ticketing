@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 @Path("/api")
 public class SwaggerResource {
 
-    private static final String SWAGGER_DIR = "back/src/main/webapp/swagger";
+    private static final String SWAGGER_DIR = "src/main/webapp/swagger";
 
     @GET
     @Produces(MediaType.TEXT_HTML)

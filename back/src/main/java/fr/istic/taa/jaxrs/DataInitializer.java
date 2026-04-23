@@ -45,13 +45,26 @@ public class DataInitializer {
             manager.persist(organisateur);
             manager.persist(client);
 
-            Concert concert = createConcert();
-            manager.persist(concert);
+//            Concert concert = createConcert();
+//            manager.persist(concert);
+
+            Concert concert1 = createConcert("Coldplay Live", "Coldplay", "Paris", 80, 5000);
+            Concert concert2 = createConcert("Imagine Dragons Tour", "Imagine Dragons", "Lyon", 60, 3000);
+            Concert concert3 = createConcert("DJ Snake Night", "DJ Snake", "Marseille", 50, 2000);
+            Concert concert4 = createConcert("Rock Festival", "Various Artists", "Rennes", 40, 1000);
+            Concert concert5 = createConcert("Jazz Evening", "John Doe Quartet", "Nice", 30, 500);
+
+            manager.persist(concert1);
+            manager.persist(concert2);
+            manager.persist(concert3);
+            manager.persist(concert4);
+            manager.persist(concert5);
+
 
             Commande commande = createCommande(client);
             manager.persist(commande);
 
-            Ticket ticket = createTicket("A12", concert, client, commande);
+            Ticket ticket = createTicket("A12", concert1, client, commande);
             manager.persist(ticket);
 
             commande.getTickets().add(ticket);
@@ -109,17 +122,31 @@ public class DataInitializer {
         return client;
     }
 
-    private Concert createConcert() {
+//    private Concert createConcert() {
+//        Concert concert = new Concert();
+//        concert.setTitre("Mythos");
+//        concert.setArtiste("Imagine Dragons");
+//        concert.setDescription("Super concert de démonstration");
+//        concert.setDate(LocalDateTime.now().plusDays(7));
+//        concert.setLieu("Liberté");
+//        concert.setVille("Rennes");
+//        concert.setGenre(GenreEnum.ROCK);
+//        concert.setPrix(new BigDecimal("49.90"));
+//        concert.setCapacite(100);
+//        concert.setStatut(StatutConcertEnum.PUBLIE);
+//        return concert;
+//    }
+    private Concert createConcert(String titre, String artiste, String ville, int prix, int capacite) {
         Concert concert = new Concert();
-        concert.setTitre("Mythos");
-        concert.setArtiste("Imagine Dragons");
-        concert.setDescription("Super concert de démonstration");
-        concert.setDate(LocalDateTime.now().plusDays(7));
-        concert.setLieu("Liberté");
-        concert.setVille("Rennes");
+        concert.setTitre(titre);
+        concert.setArtiste(artiste);
+        concert.setDescription("Concert de démonstration");
+        concert.setDate(LocalDateTime.now().plusDays((int)(Math.random() * 30 + 1)));
+        concert.setLieu("Salle principale");
+        concert.setVille(ville);
         concert.setGenre(GenreEnum.ROCK);
-        concert.setPrix(new BigDecimal("49.90"));
-        concert.setCapacite(100);
+        concert.setPrix(BigDecimal.valueOf(prix));
+        concert.setCapacite(capacite);
         concert.setStatut(StatutConcertEnum.PUBLIE);
         return concert;
     }
