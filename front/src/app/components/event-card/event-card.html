@@ -1,8 +1,24 @@
-<div class="event-card">
-    <div class="event-card-header">
-        <p>Event card header</p>
+<div
+  class="concert-card"
+  (click)="concertClick.emit(concert())"
+  (keyup.enter)="concertClick.emit(concert())"
+  (keyup.space)="concertClick.emit(concert())"
+  [class.out-of-stock]="!concert().inStock"
+  tabindex="0"
+  role="button"
+  [attr.aria-label]="'View details for ' + concert().name"
+>
+  <div class="concert-image">
+    <img ngSrc="concert().imageUrl" [alt]="concert().name" />
+    @if (!concert().inStock) {
+      <div class="out-of-stock-overlay">Out of Stock</div>
+    }
+  </div>
+  <div class="concert-info">
+    <h3 class="concert-name">{{ concert().name }}</h3>
+    <p class="concert-category">{{ concert().category }}</p>
+    <div class="concert-price">
+      {{ concert().price }}
     </div>
-    <div class="event-card-body">
-        <p>Event card body</p>
-    </div>
+  </div>
 </div>

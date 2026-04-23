@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Footer } from './footer';
+import { EventGrid } from './event-grid';
 
-describe('Footer', () => {
-  let component: Footer;
-  let fixture: ComponentFixture<Footer>;
+describe('EventGrid', () => {
+  let component: EventGrid;
+  let fixture: ComponentFixture<EventGrid>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Footer]
+      imports: [EventGrid]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Footer);
+    fixture = TestBed.createComponent(EventGrid);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
