@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.istic.taa.jaxrs.domain.enums.StatutTicketEnum;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-public class Ticket {
+public class Ticket implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,33 +25,18 @@ public class Ticket {
     private StatutTicketEnum statut;
 
     @ManyToOne
-    @JoinColumn(name = "commande_id")
+    @JoinColumn(name = "commande_id", nullable = false)
     private Commande commande;
 
     @ManyToOne
-    @JoinColumn(name = "concert_id")
+    @JoinColumn(name = "concert_id", nullable = false)
     private Concert concert;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @JsonIgnore
-    @ManyToOne
-    private Utilisateur utilisateur;
-
-    public Ticket(String numeroPlace, BigDecimal prix, Concert concert) {
-        this.prix = prix;
-        this.numeroPlace = numeroPlace;
-        this.concert = concert;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
+    public Ticket() {
     }
 
     public String getNumeroPlace() {

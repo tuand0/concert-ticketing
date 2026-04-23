@@ -1,20 +1,34 @@
 package fr.istic.taa.jaxrs.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@Schema(description = "Données nécessaires pour créer un ticket")
 public class TicketCreateDTO {
-    @NotNull
-    @NotEmpty
-    private String numeroPlace;
 
+    @Schema(description = "Identifiant du client", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull
-    private Long utilisateurId;
+    private Long clientId;
 
+    @Schema(description = "Identifiant du concert", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
     @NotNull
     private Long concertId;
 
-    // region Generated code
+    @Schema(description = "Numéro de place", requiredMode = Schema.RequiredMode.REQUIRED, example = "A12")
+    @NotBlank
+    private String numeroPlace;
+
+    @Schema(description = "Mode de paiement", example = "CARTE_BANCAIRE")
+    private String modePaiement;
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
 
     public Long getConcertId() {
         return concertId;
@@ -24,14 +38,6 @@ public class TicketCreateDTO {
         this.concertId = concertId;
     }
 
-    public Long getUtilisateurId() {
-        return utilisateurId;
-    }
-
-    public void setUtilisateurId(Long utilisateurId) {
-        this.utilisateurId = utilisateurId;
-    }
-
     public String getNumeroPlace() {
         return numeroPlace;
     }
@@ -39,5 +45,12 @@ public class TicketCreateDTO {
     public void setNumeroPlace(String numeroPlace) {
         this.numeroPlace = numeroPlace;
     }
-    // endregion
+
+    public String getModePaiement() {
+        return modePaiement;
+    }
+
+    public void setModePaiement(String modePaiement) {
+        this.modePaiement = modePaiement;
+    }
 }

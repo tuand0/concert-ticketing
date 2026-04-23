@@ -1,5 +1,6 @@
 package fr.istic.taa.jaxrs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.istic.taa.jaxrs.domain.enums.GenreEnum;
 import fr.istic.taa.jaxrs.domain.enums.StatutConcertEnum;
 import jakarta.persistence.*;
@@ -49,6 +50,7 @@ public class Concert implements Serializable {
     private Administrateur administrateurValidateur;
 
     @OneToMany(mappedBy = "concert", cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private List<Ticket> tickets = new ArrayList<>();
 
     public Concert() {

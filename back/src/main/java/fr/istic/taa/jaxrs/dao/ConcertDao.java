@@ -107,4 +107,3 @@ public class ConcertDao extends AbstractJpaDao<Long, Concert> {
         return entityManager.createQuery(query).getResultList();
     }
 }
-}

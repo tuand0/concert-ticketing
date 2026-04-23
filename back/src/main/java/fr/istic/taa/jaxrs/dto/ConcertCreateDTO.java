@@ -19,7 +19,7 @@ public class ConcertCreateDTO {
     @Schema(description = "Capacité maximale du public", requiredMode = Schema.RequiredMode.REQUIRED, example = "5000")
     @NotNull
     @Positive
-    private Long capacite;
+    private int capacite;
 
     @Schema(description = "Description facultative du concert", example = "Scène principale du festival d'été")
     private String description;
@@ -60,11 +60,11 @@ public class ConcertCreateDTO {
     }
 
 
-    public Long getCapacite() {
+    public int getCapacite() {
         return capacite;
     }
 
-    public void setCapacite(Long capacite) {
+    public void setCapacite(int capacite) {
         this.capacite = capacite;
     }
 

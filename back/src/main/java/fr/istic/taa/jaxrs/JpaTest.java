@@ -1,12 +1,17 @@
 package fr.istic.taa.jaxrs;
 
+import fr.istic.taa.jaxrs.dao.ClientDao;
 import fr.istic.taa.jaxrs.dao.ConcertDao;
 import fr.istic.taa.jaxrs.dao.OrganisateurDao;
+import fr.istic.taa.jaxrs.dao.TicketDao;
+import fr.istic.taa.jaxrs.domain.Client;
 import fr.istic.taa.jaxrs.domain.Concert;
 import fr.istic.taa.jaxrs.domain.Organisateur;
+import fr.istic.taa.jaxrs.domain.Ticket;
 import fr.istic.taa.jaxrs.domain.enums.*;
 import fr.istic.taa.jaxrs.dao.generic.EntityManagerHelper;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,12 +21,14 @@ public class JpaTest {
 
         ConcertDao concertDao = new ConcertDao();
         OrganisateurDao organisateurDao = new OrganisateurDao();
+        ClientDao clientDao = new ClientDao();
+        TicketDao ticketDao = new TicketDao();
 
         try {
-            // 🔹 Start transaction
+            //Start transaction
             EntityManagerHelper.beginTransaction();
 
-            // 🔹 Create Organisateur
+            //Create Organisateur
             Organisateur org = new Organisateur();
             org.setNom("Dupont");
             org.setPrenom("Jean");
@@ -31,31 +38,49 @@ public class JpaTest {
 
             organisateurDao.save(org);
 
-            // 🔹 Create Concert
+            //Create Client
+            Client client = new Client();
+            client.setNom("Do");
+            client.setPrenom("Tuan");
+            client.setEmail("tuan@test.com");
+
+            clientDao.save(client);
+
+            // Create Concert
             Concert concert = new Concert();
-            concert.setTitre("My First Concert");
+            concert.setTitre("Coldplay Live");
             concert.setArtiste("Coldplay");
-            concert.setLieu("Paris");
             concert.setVille("Paris");
-            concert.setDate(LocalDateTime.now());
+            concert.setLieu("Accor Arena");
+            concert.setDate(LocalDateTime.now().plusDays(10));
+            concert.setGenre(GenreEnum.EDM);
+            concert.setPrix(BigDecimal.valueOf(50));
             concert.setCapacite(100);
             concert.setStatut(StatutConcertEnum.PUBLIE);
-            concert.setOrganisateur(org);
 
             concertDao.save(concert);
 
-            // 🔹 Commit transaction
+            // Create Concert
+            Ticket ticket = new Ticket();
+            ticket.setClient(client);
+            ticket.setConcert(concert);
+            ticket.setNumeroPlace("A12");
+            ticket.setPrix(concert.getPrix());
+            ticket.setDateAchat(LocalDateTime.now());
+            ticket.setStatut(StatutTicketEnum.ACTIF);
+            ticketDao.save(ticket);
+
+            //Commit transaction
             EntityManagerHelper.commit();
 
             System.out.println("✅ Concert saved in database!");
 
-            // 🔹 Read data
+            //Read data
             List<Concert> concerts = concertDao.findAll();
 
-            System.out.println("📌 List of concerts:");
-            for (Concert c : concerts) {
-                System.out.println("- " + c.getTitre() + " in " + c.getVille());
-            }
+            System.out.println("Tickets for concert: " + ticketDao.countByConcert(concert));
+            System.out.println("Seat A12 exists: " + ticketDao.existsByConcertAndPlace("A12", concert));
+            System.out.println("Tickets for client: " + ticketDao.findByClient(client).size());
 
         } catch (Exception e) {
             System.out.println("❌ Error occurred, rollback");

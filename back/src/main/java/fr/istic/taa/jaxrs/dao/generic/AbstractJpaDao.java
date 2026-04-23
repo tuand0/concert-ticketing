@@ -1,6 +1,5 @@
 package fr.istic.taa.jaxrs.dao.generic;
 
-import fr.istic.taa.jaxrs.dto.ArtisteSearchDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 

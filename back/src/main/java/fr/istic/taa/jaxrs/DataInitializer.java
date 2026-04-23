@@ -71,9 +71,8 @@ public class DataInitializer {
 //        return util;
 //    }
 
-    private Utilisateur createUtilisateur(){
-
-    }
+//    private Utilisateur createUtilisateur(){
+//    }
 
     private Administrateur createAdministrateur() {
         Administrateur admin = new Administrateur();
@@ -121,9 +120,9 @@ public class DataInitializer {
     }
 
     private Ticket createTicket(String numeroPlace, BigDecimal prix, Concert concert) {
-        Ticket ticket = new Ticket("1",BigDecimal.valueOf(100), concert);
+        Ticket ticket = new Ticket();
         ticket.setPrix(prix);
-        ticket.setNumeroPlace("1");
+        ticket.setNumeroPlace(numeroPlace);
         ticket.setConcert(concert);
         return ticket;
     }

@@ -2,8 +2,10 @@ package fr.istic.taa.jaxrs.domain;
 
 import jakarta.persistence.Entity;
 
+import java.io.Serializable;
+
 @Entity
-public class Organisateur extends Utilisateur {
+public class Organisateur extends Utilisateur implements Serializable {
 
     private String nomEntreprise;
 
