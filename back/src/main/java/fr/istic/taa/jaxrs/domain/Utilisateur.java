@@ -1,5 +1,6 @@
 package fr.istic.taa.jaxrs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -29,6 +30,7 @@ public class Utilisateur implements Serializable {
 
     private String telephone;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "utilisateur_notification",

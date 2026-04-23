@@ -28,21 +28,6 @@ public class ConcertCreateDTO {
     @NotNull
     private LocalDateTime dateTime;
 
-    @Schema(description = "Score de popularité entre 1 et 5", requiredMode = Schema.RequiredMode.REQUIRED, minimum = "1", maximum = "5", example = "3")
-    @NotNull
-    @Min(1)
-    @Max(5)
-    private Integer popularite;
-
-    // region Generated code
-    public Integer getPopularite() {
-        return popularite;
-    }
-
-    public void setPopularite(Integer popularite) {
-        this.popularite = popularite;
-    }
-
     public LocalDateTime getDateTime() {
         return dateTime;
     }
