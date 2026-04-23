@@ -62,8 +62,10 @@ public class TicketService {
                 throw new NotFoundException("Concert non trouvé");
             }
 
+            String numeroPlace = dto.getNumeroPlace().trim();
+
             validateConcert(concert);
-            validateSeatAvailability(concert, dto.getNumeroPlace());
+            validateSeatAvailability(concert, numeroPlace);
 
             Commande commande = buildCommande(client, dto.getModePaiement());
             commandeDao.save(commande);
@@ -158,13 +160,13 @@ public class TicketService {
         return ticket;
     }
 
-    private ModePaiementEnum parseModePaiementEnum(String ModePaiement) {
-        if (ModePaiement == null || ModePaiement.isBlank()) {
-            return ModePaiementEnum.valueOf("CARTE_BANCAIRE");
+    private ModePaiementEnum parseModePaiementEnum(String modePaiement) {
+        if (modePaiement == null || modePaiement.isBlank()) {
+            return ModePaiementEnum.CARTE_BANCAIRE;
         }
 
         try {
-            return ModePaiementEnum.valueOf(ModePaiement.toUpperCase());
+            return ModePaiementEnum.valueOf(modePaiement.trim().toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("Mode de paiement invalide");
         }

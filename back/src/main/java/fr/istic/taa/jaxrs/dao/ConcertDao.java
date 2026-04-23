@@ -16,7 +16,7 @@ public class ConcertDao extends AbstractJpaDao<Long, Concert> {
     }
 
     public List<Concert> searchConcerts(ConcertSearchDTO searchDTO) {
-        var cb = entityManager.getCriteriaBuilder();
+        var cb = getEntityManager().getCriteriaBuilder();
         var cr = cb.createQuery(Concert.class);
         var root = cr.from(Concert.class);
 
@@ -104,6 +104,6 @@ public class ConcertDao extends AbstractJpaDao<Long, Concert> {
 
         var query = cr.where(predicates.toArray(new Predicate[0]));
 
-        return entityManager.createQuery(query).getResultList();
+        return getEntityManager().createQuery(query).getResultList();
     }
 }

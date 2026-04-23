@@ -13,7 +13,7 @@ public class CommandeDao extends AbstractJpaDao<Long, Commande> {
     }
 
     public List<Commande> findByClient(Client client) {
-        return entityManager.createQuery(
+        return getEntityManager().createQuery(
                         "select c from Commande c where c.client = :client",
                         Commande.class
                 )

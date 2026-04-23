@@ -13,7 +13,7 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
     }
 
     public boolean existsByConcertAndPlace(String place, Concert concert) {
-        return entityManager
+        return getEntityManager()
                 .createNamedQuery("Ticket.existsByPlaceAndConcert", Boolean.class)
                 .setParameter("place", place)
                 .setParameter("concert", concert)
@@ -21,13 +21,13 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
     }
 
     public long countByConcert(Concert concert) {
-        return entityManager.createQuery("select count(t) from Ticket t where t.concert = :concert", Long.class)
+        return getEntityManager().createQuery("select count(t) from Ticket t where t.concert = :concert", Long.class)
                 .setParameter("concert", concert)
                 .getSingleResult();
     }
 
     public List<Ticket> findByClient(Client client) {
-        return entityManager.createQuery(
+        return getEntityManager().createQuery(
                         "select t from Ticket t where t.client = :client",
                         Ticket.class
                 )
@@ -36,7 +36,7 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
     }
 
     public List<Ticket> findByConcert(Concert concert) {
-        return entityManager.createQuery(
+        return getEntityManager().createQuery(
                         "select t from Ticket t where t.concert = :concert",
                         Ticket.class
                 )
@@ -45,7 +45,7 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
     }
 
     public List<Ticket> findByCommandeId(Long commandeId) {
-        return entityManager.createQuery(
+        return getEntityManager().createQuery(
                         "select t from Ticket t where t.commande.id = :commandeId",
                         Ticket.class
                 )
