@@ -1,17 +1,22 @@
 package fr.istic.taa.jaxrs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Client extends Utilisateur {
+public class Client extends Utilisateur implements Serializable {
 
     @OneToMany(mappedBy = "client")
+    @JsonIgnore
     private List<Commande> commandes = new ArrayList<>();
 
     @OneToMany(mappedBy = "client")
+    @JsonIgnore
     private List<Ticket> tickets = new ArrayList<>();
 
     public Client() {

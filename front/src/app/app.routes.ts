@@ -4,8 +4,8 @@ import {Login} from './components/login/login';
 
 export const routes: Routes = [
     {
-    path: 'events',
-    redirectTo: 'artistes',
+    path: '**',
+    redirectTo: 'events',
     pathMatch: 'full',
   },
   {

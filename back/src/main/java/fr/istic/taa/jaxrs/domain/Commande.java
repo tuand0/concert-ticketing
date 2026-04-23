@@ -1,16 +1,18 @@
 package fr.istic.taa.jaxrs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.istic.taa.jaxrs.domain.enums.ModePaiementEnum;
 import fr.istic.taa.jaxrs.domain.enums.StatutCommandeEnum;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Commande {
+public class Commande implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,18 +33,10 @@ public class Commande {
     private Client client;
 
     @OneToMany(mappedBy = "commande")
+    @JsonIgnore
     private List<Ticket> tickets = new ArrayList<>();
 
     public Commande() {
-    }
-
-    public Commande(LocalDateTime dateCommande, BigDecimal montantTotal,
-                    StatutCommandeEnum statut, ModePaiementEnum modePaiement, Client client) {
-        this.dateCommande = dateCommande;
-        this.montantTotal = montantTotal;
-        this.statut = statut;
-        this.modePaiement = modePaiement;
-        this.client = client;
     }
 
     public BigDecimal calculerTotal() {
