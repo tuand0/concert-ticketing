@@ -45,9 +45,6 @@ public class DataInitializer {
             manager.persist(organisateur);
             manager.persist(client);
 
-//            Concert concert = createConcert();
-//            manager.persist(concert);
-
             Concert concert1 = createConcert("Coldplay Live", "Coldplay", "Paris", 80, 5000);
             Concert concert2 = createConcert("Imagine Dragons Tour", "Imagine Dragons", "Lyon", 60, 3000);
             Concert concert3 = createConcert("DJ Snake Night", "DJ Snake", "Marseille", 50, 2000);

@@ -1,13 +1,13 @@
 <div class="concert-grid">
   @for (concert of concerts(); track concert.id) {
-    <app-event-card
+    <app-concert-card
       [concert]="concert"
       (concertClick)="concertSelect.emit($event)"
     />
   }
   @empty {
-    <div class="no-products">
-      <p>No products found</p>
+    <div class="no-concerts-found">
+      <p>No concerts found</p>
     </div>
   }
 </div>

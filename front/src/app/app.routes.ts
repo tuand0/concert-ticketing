@@ -1,19 +1,20 @@
 import { Routes } from '@angular/router';
-import { EventCard } from './components/event-card/event-card';
 import {Login} from './components/login/login';
+import {ConcertGrid} from './components/concert-grid/concert-grid';
+import {ConcertCard} from './components/concert-card/concert-card';
 
 export const routes: Routes = [
     {
     path: '**',
-    redirectTo: 'events',
+    redirectTo: 'concerts',
     pathMatch: 'full',
   },
   {
-    path: 'events',
+    path: 'concerts',
     children: [
       {
         path: '',
-        component: EventCard,
+        component: ConcertCard,
       }
     ]
   },

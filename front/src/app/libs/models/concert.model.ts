@@ -1,13 +1,15 @@
-export interface Concert {
-  id: string;
-  name: string;
+export interface ConcertModel {
+  id: number;
+  titre: string;
+  artiste: string;
   description: string;
-  price: number;
-  category: string;
-  imageUrl: string;
-  inStock: boolean;
-  rating: number;
-  reviewCount: number;
+  date: string;
+  lieu: string;
+  ville: string;
+  genre: string;
+  prix: number;
+  capacite: number;
+  statut: string;
 }
 
 export interface ApiResponse<T> {
