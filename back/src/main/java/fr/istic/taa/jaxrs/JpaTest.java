@@ -62,7 +62,6 @@ public class JpaTest {
 
             // Create Concert
             Ticket ticket = new Ticket();
-            ticket.setClient(client);
             ticket.setConcert(concert);
             ticket.setNumeroPlace("A12");
             ticket.setPrix(concert.getPrix());

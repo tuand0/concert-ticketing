@@ -1,26 +1,31 @@
 import { Routes } from '@angular/router';
 import {Login} from './components/login/login';
-import {ConcertGrid} from './components/concert-grid/concert-grid';
-import {ConcertCard} from './components/concert-card/concert-card';
+import {featureConcertDetailRoutes} from './components/concert-detail/feature-concert-detail.route';
+import {ConcertList} from './components/concert-list/concert-list';
 
 export const routes: Routes = [
-    {
-    path: '**',
-    redirectTo: 'concerts',
-    pathMatch: 'full',
-  },
   {
     path: 'concerts',
     children: [
       {
         path: '',
-        component: ConcertCard,
-      }
-    ]
+        component: ConcertList,
+      },
+      ...featureConcertDetailRoutes,
+    ],
   },
   {
     path: 'login',
     component: Login,
     pathMatch: 'full',
+  },
+  {
+    path: '',
+    redirectTo: 'concerts',
+    pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: 'concerts',
   },
 ];

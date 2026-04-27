@@ -32,7 +32,7 @@ public class Commande implements Serializable {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @OneToMany(mappedBy = "commande")
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Ticket> tickets = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public class Commande implements Serializable {
     }
 
     public BigDecimal calculerTotal() {
-        BigDecimal total = new BigDecimal(0);
+        BigDecimal total = BigDecimal.ZERO;
         for (Ticket ticket : tickets) {
             if (ticket.getPrix() != null) {
                 total = total.add(ticket.getPrix());

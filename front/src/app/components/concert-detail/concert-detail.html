@@ -1,0 +1,69 @@
+<div class="concert-detail-container">
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (error()) {
+    <app-error-message
+      [title]="'concert Not Found'"
+      [message]="error() || undefined"
+      (retry)="loadconcert()"
+    />
+  } @else if (concert()) {
+    <div class="breadcrumb">
+      <a routerLink="/concerts">← Back to concerts</a>
+    </div>
+
+    <div class="concert-detail">
+      <div class="concert-image-section">
+        <img
+          [src]="concert()!.imageUrl"
+          [alt]="concert()!.titre"
+          class="concert-image"
+        />
+        @if (!concert()!.inStock) {
+          <div class="out-of-stock-badge">Out of Stock</div>
+        }
+      </div>
+
+      <div class="concert-info-section">
+        <div class="concert-category">{{ concert()!.genre }}</div>
+        <h1 class="concert-name">{{ concert()!.titre }}</h1>
+
+        <div class="concert-price">
+          {{ concert()!.prix }}
+        </div>
+
+        <div class="concert-description">
+          <h2>Description</h2>
+          <p>{{ concert()!.description }}</p>
+        </div>
+
+        <div class="concert-actions">
+          @if (concert()!.inStock) {
+            <button class="btn-primary" (click)="addToCart()">
+              Add to Cart
+            </button>
+            <button class="btn-secondary" (click)="addToWishlist()">
+              Add to Wishlist
+            </button>
+          } @else {
+            <button class="btn-disabled" disabled>
+              Currently Unavailable
+            </button>
+          }
+        </div>
+
+        <div class="concert-info">
+          <h3>concert Information</h3>
+          <dl>
+            <dt>concert ID:</dt>
+            <dd>{{ concert()!.id }}</dd>
+            <dt>Category:</dt>
+            <dd>{{ concert()!.genre }}</dd>
+            <dt>Availability:</dt>
+            <dd>{{ concert()!.inStock ? 'In Stock' : 'Out of Stock' }}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  }
+</div>

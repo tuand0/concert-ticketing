@@ -1,30 +1,32 @@
-<div class="container">
-  @for (concert of concerts; track concert.id){
-    <div
+ <div
       class="concert-card"
-      (click)="concertClick.emit(concert)"
-      (keyup.enter)="concertClick.emit(concert)"
-      (keyup.space)="concertClick.emit(concert)"
-      [class.out-of-stock]="concert.statut"
+      (click)="concertClick.emit(concert())"
+      (keyup.enter)="concertClick.emit(concert())"
+      (keyup.space)="concertClick.emit(concert())"
+      [class.out-of-stock]="concert().statut"
       tabindex="0"
       role="button"
-      [attr.aria-label]="'View details for ' + concert.titre"
+      [attr.aria-label]="'View details for ' + concert().titre"
     >
+   <div class="concert-image">
+     <img [src]="concert().imageUrl" [alt]="concert().titre" />
+     @if (!concert().inStock) {
+       <div class="out-of-stock-overlay">Out of Stock</div>
+     }
+   </div>
     <div class="concert-info">
-      <h3 class="concert-name">{{ concert.titre }}</h3>
+      <h3 class="concert-name">{{ concert().titre }}</h3>
       <div class="concert-price">
-        {{ concert.prix }}
+        {{ concert().prix }}
       </div>
-      <p><strong>Artiste:</strong> {{ concert.artiste }}</p>
-      <p><strong>Ville:</strong> {{ concert.ville }}</p>
-      <p><strong>Lieu:</strong> {{ concert.lieu }}</p>
-      <p><strong>Date:</strong> {{ concert.date }}</p>
-      <p><strong>Prix:</strong> {{ concert.prix }} €</p>
-      <p><strong>Genre:</strong> {{ concert.genre }}</p>
+      <p><strong>Artiste:</strong> {{ concert().artiste }}</p>
+      <p><strong>Ville:</strong> {{ concert().ville }}</p>
+      <p><strong>Lieu:</strong> {{ concert().lieu }}</p>
+      <p><strong>Date:</strong> {{ concert().date }}</p>
+      <p><strong>Prix:</strong> {{ concert().prix }} €</p>
+      <p><strong>Genre:</strong> {{ concert().genre }}</p>
     </div>
   </div>
-  }
-</div>
 
 
 
@@ -37,4 +39,5 @@ tabindex="0"
   [attr.aria-label]="'View details for ' + concert().name"
   >
 
+@for (concert of concerts; track concert.id){
 -->
