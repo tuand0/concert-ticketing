@@ -89,7 +89,9 @@ public class DataInitializer {
         admin.setNom("LECHEF");
         admin.setPrenom("Baptiste");
         admin.setTelephone("0102030405");
-        admin.setEmail("baptiste.lechef@yopmail.com");
+        admin.setEmail("admin@yopmail.com");
+        // passw0rd
+        admin.setHashedPassword("$2a$12$W2npC1gc9w.bbOmdLdMF.O6zXvYKuWphkoqYjWPjF2/3Jnyq.yCz6");
         admin.setActif(true);
         return admin;
     }
@@ -100,7 +102,9 @@ public class DataInitializer {
         orga.setHashedPassword("organisateur");
         orga.setNom("COMBOURG");
         orga.setPrenom("Adeline");
-        orga.setEmail("adeline.combourg2@yopmail.com");
+        orga.setEmail("orga@yopmail.com");
+        // passw0rd
+        orga.setHashedPassword("$2a$12$W2npC1gc9w.bbOmdLdMF.O6zXvYKuWphkoqYjWPjF2/3Jnyq.yCz6");
         orga.setTelephone("0600000000");
         orga.setActif(true);
         orga.setNomEntreprise("Rock en scène");
@@ -115,7 +119,9 @@ public class DataInitializer {
         client.setNom("DUPONT");
         client.setPrenom("George");
         client.setTelephone("0902030405");
-        client.setEmail("george.dupont@yopmail.com");
+        client.setEmail("client@yopmail.com");
+        // passw0rd
+        client.setHashedPassword("$2a$12$W2npC1gc9w.bbOmdLdMF.O6zXvYKuWphkoqYjWPjF2/3Jnyq.yCz6");
         return client;
     }
 

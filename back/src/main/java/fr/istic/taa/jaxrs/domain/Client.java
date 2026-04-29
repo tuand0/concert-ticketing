@@ -1,15 +1,15 @@
 package fr.istic.taa.jaxrs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import fr.istic.taa.jaxrs.domain.enums.RoleEnum;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@DiscriminatorValue("client")
 public class Client extends Utilisateur implements Serializable {
 
     @OneToMany(mappedBy = "client")
@@ -19,6 +19,12 @@ public class Client extends Utilisateur implements Serializable {
 //    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 //    @JsonIgnore
 //    private List<Ticket> tickets = new ArrayList<>();
+
+    @Transient
+    @Override
+    public RoleEnum getRole() {
+        return RoleEnum.CLIENT;
+    }
 
     public Client() {
         super();

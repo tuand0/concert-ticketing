@@ -1,6 +1,7 @@
 package fr.istic.taa.jaxrs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.istic.taa.jaxrs.domain.enums.RoleEnum;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -8,10 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@Inheritance(strategy = InheritanceType.JOINED)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "role")
-public class Utilisateur implements Serializable {
+public abstract class Utilisateur implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +29,9 @@ public class Utilisateur implements Serializable {
     private String hashedPassword;
 
     private String telephone;
+
+    @Transient
+    public abstract RoleEnum getRole();
 
     @JsonIgnore
     @ManyToMany
