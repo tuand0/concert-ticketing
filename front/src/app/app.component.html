@@ -1,9 +1,14 @@
 <header class="app-header">
   <div class="container">
-    <h1>{{ title }}</h1>
+    <h1 routerLink="/concerts">{{ title }}</h1>
+    <div class="btn-container">
     <nav>
-      <a routerLink="/concerts" routerLinkActive="active">Products</a>
+      <a routerLink="/concerts" routerLinkActive="active">Home</a>
     </nav>
+    <nav>
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+    </nav>
+    </div>
   </div>
 </header>
 

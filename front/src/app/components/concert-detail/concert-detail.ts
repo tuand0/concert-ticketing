@@ -1,5 +1,5 @@
 import {Component, inject, signal} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {ConcertService} from '../../libs/services/concert.service';
 import {ConcertModel} from '../../libs/models/concert.model';
 import {ErrorMessage} from '../error-message/error-message';
@@ -8,6 +8,7 @@ import {LoadingSpinner} from '../loading-spinner/loading-spinner';
 @Component({
   selector: 'app-concert-detail',
   imports: [
+    RouterModule,
     ErrorMessage,
     LoadingSpinner
   ],
