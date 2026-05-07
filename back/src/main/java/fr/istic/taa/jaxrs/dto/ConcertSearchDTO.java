@@ -2,6 +2,7 @@ package fr.istic.taa.jaxrs.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.ws.rs.core.MultivaluedMap;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
@@ -33,10 +34,10 @@ public class ConcertSearchDTO {
     private LocalDateTime dateMax;
 
     @Schema(description = "Prix minimum", example = "20")
-    private Integer prixMin;
+    private BigDecimal prixMin;
 
     @Schema(description = "Prix maximum", example = "100")
-    private Integer prixMax;
+    private BigDecimal prixMax;
 
     public ConcertSearchDTO(MultivaluedMap<String, String> queryParameters) {
 
@@ -66,7 +67,7 @@ public class ConcertSearchDTO {
         // prixMin
         try {
             String p = queryParameters.getFirst("prixMin");
-            if (p != null) this.prixMin = Integer.parseInt(p);
+            if (p != null) this.prixMin = new BigDecimal(p);
         } catch (NumberFormatException e) {
             this.prixMin = null;
         }
@@ -74,7 +75,7 @@ public class ConcertSearchDTO {
         // prixMax
         try {
             String p = queryParameters.getFirst("prixMax");
-            if (p != null) this.prixMax = Integer.parseInt(p);
+            if (p != null) this.prixMax = new BigDecimal(p);
         } catch (NumberFormatException e) {
             this.prixMax = null;
         }
@@ -88,6 +89,6 @@ public class ConcertSearchDTO {
     public String getStatut() { return statut; }
     public LocalDateTime getDateMin() { return dateMin; }
     public LocalDateTime getDateMax() { return dateMax; }
-    public Integer getPrixMin() { return prixMin; }
-    public Integer getPrixMax() { return prixMax; }
+    public BigDecimal getPrixMin() { return prixMin; }
+    public BigDecimal getPrixMax() { return prixMax; }
 }

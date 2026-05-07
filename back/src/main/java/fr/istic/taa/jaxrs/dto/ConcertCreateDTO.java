@@ -45,7 +45,8 @@ public class ConcertCreateDTO {
 
     @Schema(description = "Capacité du concert", requiredMode = Schema.RequiredMode.REQUIRED, example = "1000")
     @Positive
-    private int capacite;
+    @NotNull
+    private Integer capacite;
 
     @Schema(description = "Genre musical", requiredMode = Schema.RequiredMode.REQUIRED, example = "ROCK")
     @NotBlank

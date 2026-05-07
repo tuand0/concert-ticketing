@@ -32,10 +32,6 @@ public class Ticket implements Serializable {
     @JoinColumn(name = "concert_id", nullable = false)
     private Concert concert;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
-
     public Ticket() {
     }
 
@@ -93,13 +89,5 @@ public class Ticket implements Serializable {
 
     public void setConcert(Concert concert) {
         this.concert = concert;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
     }
 }

@@ -10,6 +10,8 @@ export interface ConcertModel {
   prix: number;
   capacite: number;
   statut: string;
+  imageUrl: string;
+  inStock: boolean;
 }
 
 export interface ApiResponse<T> {
@@ -28,9 +30,15 @@ export interface PaginatedResponse<T> {
 }
 
 export interface ConcertFilter {
-  category?: string;
-  minPrice?: number;
-  maxPrice?: number;
+  titre?: string;
+  artiste?: string;
+  ville?: string;
+  lieu?: string;
+  genre?: string;
+  statut?: string;
+  dateMin?: string;
+  dateMax?: string;
+  prixMin?: number;
+  prixMax?: number;
   inStock?: boolean;
-  searchTerm?: string;
 }

@@ -24,28 +24,24 @@ public class Notification {
 
     private LocalDateTime dateEnvoi;
 
-    private boolean estLue;
-
     @ManyToMany(mappedBy = "notifications")
     private List<Utilisateur> utilisateurs = new ArrayList<>();
 
     public Notification() {
     }
 
-    public Notification(String titre, String message, TypeNotificationEnum type, LocalDateTime dateEnvoi, boolean estLue) {
+    public Notification(String titre,
+                        String message,
+                        TypeNotificationEnum type,
+                        LocalDateTime dateEnvoi) {
         this.titre = titre;
         this.message = message;
         this.type = type;
         this.dateEnvoi = dateEnvoi;
-        this.estLue = estLue;
     }
 
     public void envoyer() {
         this.dateEnvoi = LocalDateTime.now();
-    }
-
-    public void marquerCommeLue() {
-        this.estLue = true;
     }
 
     public Long getId() {
@@ -82,14 +78,6 @@ public class Notification {
 
     public void setDateEnvoi(LocalDateTime dateEnvoi) {
         this.dateEnvoi = dateEnvoi;
-    }
-
-    public boolean isEstLue() {
-        return estLue;
-    }
-
-    public void setEstLue(boolean estLue) {
-        this.estLue = estLue;
     }
 
     public List<Utilisateur> getUtilisateurs() {

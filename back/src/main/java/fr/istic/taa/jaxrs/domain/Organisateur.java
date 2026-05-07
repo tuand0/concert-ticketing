@@ -1,6 +1,8 @@
 package fr.istic.taa.jaxrs.domain;
 
+import fr.istic.taa.jaxrs.domain.enums.RoleEnum;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
 
 import java.io.Serializable;
 
@@ -12,6 +14,12 @@ public class Organisateur extends Utilisateur implements Serializable {
     private String siret;
 
     private Boolean actif;
+
+    @Transient
+    @Override
+    public RoleEnum getRole() {
+        return RoleEnum.ORGANISATEUR;
+    }
 
     public Organisateur() {}
     // region Generated code

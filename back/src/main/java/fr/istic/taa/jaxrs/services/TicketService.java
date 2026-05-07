@@ -70,7 +70,7 @@ public class TicketService {
             Commande commande = buildCommande(client, dto.getModePaiement());
             commandeDao.save(commande);
 
-            Ticket ticket = buildTicket(client, concert, commande, dto.getNumeroPlace());
+            Ticket ticket = buildTicket(concert, commande, dto.getNumeroPlace());
             ticketDao.save(ticket);
 
             commande.getTickets().add(ticket);
@@ -148,9 +148,8 @@ public class TicketService {
         return commande;
     }
 
-    private Ticket buildTicket(Client client, Concert concert, Commande commande, String numeroPlace) {
+    private Ticket buildTicket(Concert concert, Commande commande, String numeroPlace) {
         Ticket ticket = new Ticket();
-        ticket.setClient(client);
         ticket.setConcert(concert);
         ticket.setCommande(commande);
         ticket.setNumeroPlace(numeroPlace.trim());

@@ -7,6 +7,7 @@ import fr.istic.taa.jaxrs.domain.Concert;
 import fr.istic.taa.jaxrs.domain.enums.GenreEnum;
 import fr.istic.taa.jaxrs.domain.enums.StatutConcertEnum;
 import fr.istic.taa.jaxrs.dto.ConcertCreateDTO;
+import fr.istic.taa.jaxrs.dto.ConcertSearchDTO;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.BadRequestException;
 
@@ -17,8 +18,8 @@ public class ConcertService {
     private final ConcertDao concertDao = new ConcertDao();
     private final OrganisateurDao organisateurDao = new OrganisateurDao();
 
-    public List<Concert> findAll() {
-        return concertDao.findAll();
+    public List<Concert> searchConcerts(ConcertSearchDTO searchDTO) {
+        return concertDao.searchConcerts(searchDTO);
     }
 
     public Concert findOne(Long id) {

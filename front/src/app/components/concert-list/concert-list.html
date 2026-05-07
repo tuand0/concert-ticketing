@@ -1,0 +1,124 @@
+<div class="concert-list-container">
+  <header class="page-header">
+    <h1>Our concerts</h1>
+    <p>Explore our wide selection of high-quality concerts</p>
+  </header>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search concerts..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+        class="search-input"
+      />
+    </div>
+
+    <div class="filter-controls">
+      <select
+        [(ngModel)]="selectedGenre"
+        (ngModelChange)="onSearchChange()"
+        class="filter-select"
+      >
+        <option value="">All Categories</option>
+        @for (genre of genres(); track genre) {
+        <option [value]="genre">{{ genre }}</option>
+        }
+      </select>
+
+      <select
+        [ngModel]="pageSize()"
+        (ngModelChange)="onPageSizeChange($event)"
+        class="filter-select"
+      >
+        <option [value]="4">4 per page</option>
+        <option [value]="12">12 per page</option>
+        <option [value]="24">24 per page</option>
+        <option [value]="48">48 per page</option>
+      </select>
+
+      <label class="checkbox-label">
+        <input
+          type="checkbox"
+          [(ngModel)]="inStockOnly"
+          (ngModelChange)="onSearchChange()"
+        />
+        In Stock Only
+      </label>
+
+        <input
+          type="text"
+          placeholder="Artiste"
+          [(ngModel)]="selectedArtiste"
+          (ngModelChange)="onSearchChange()"
+          class="search-input"
+        />
+
+      <input
+        type="text"
+        placeholder="Ville"
+        [(ngModel)]="selectedVille"
+        (ngModelChange)="onSearchChange()"
+        class="search-input"
+      />
+
+      <input
+        type="number"
+        placeholder="Prix min"
+        [(ngModel)]="prixMin"
+        (ngModelChange)="onSearchChange()"
+        class="search-input"
+      />
+
+      <input
+        type="number"
+        placeholder="Prix max"
+        [(ngModel)]="prixMax"
+        (ngModelChange)="onSearchChange()"
+        class="search-input"
+      />
+
+    </div>
+  </div>
+
+  @if (loading()) {
+  <app-loading-spinner />
+  } @else if (error()) {
+  <app-error-message
+    [message]="error() || undefined"
+    (retry)="loadConcerts()"
+  />
+  } @else {
+  <div class="results-info">
+    Showing {{ concerts().length }} of {{ totalconcerts() }} concerts
+  </div>
+
+  <app-concert-grid
+    [concerts]="concerts()"
+    (concertSelect)="onConcertSelect($event)"
+  />
+
+  @if (hasMorePages()) {
+  <div class="pagination">
+    <button
+      class="btn-secondary"
+      [disabled]="currentPage() === 1"
+      (click)="previousPage()"
+    >
+      Previous
+    </button>
+    <span class="page-info">
+              Page {{ currentPage() }} of {{ totalPages() }}
+            </span>
+    <button
+      class="btn-secondary"
+      [disabled]="currentPage() === totalPages()"
+      (click)="nextPage()"
+    >
+      Next
+    </button>
+  </div>
+  }
+  }
+</div>
