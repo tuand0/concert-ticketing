@@ -4,10 +4,11 @@ import {Router} from '@angular/router';
 import {email, form, FormField, minLength, required} from '@angular/forms/signals';
 import {AuthService} from '../../libs/services/auth.service';
 import {finalize} from 'rxjs';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, FormField],
+  imports: [FormsModule, FormField, CommonModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
   standalone: true
@@ -55,5 +56,9 @@ export class Login {
           console.error('Connection error', err)
         }
       })
+  }
+
+  public testFct():void{
+    console.log('button works!')
   }
 }
