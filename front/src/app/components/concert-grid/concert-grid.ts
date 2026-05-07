@@ -18,15 +18,4 @@ export class ConcertGrid {
   readonly concertSelect = output<ConcertModel>();
 
   constructor(private readonly concertService: ConcertService) {}
-
-  // ngOnInit(): void {
-  //   this.concertService.getAll().subscribe({
-  //     next: concerts => {
-  //       this.concerts.set(concerts);
-  //     },
-  //     error: err => {
-  //       console.error('Error loading concerts:', err);
-  //     }
-  //   });
-  // }
 }
