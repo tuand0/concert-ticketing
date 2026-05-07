@@ -33,7 +33,7 @@ export class Login {
 
   readonly canSubmit = computed(() => this.form().valid() && this.form().touched() && !this.loading())
 
-  onSubmit(event: Event) {
+  protected onSubmit(event: Event) {
     event.preventDefault()
     if (!this.canSubmit()) {
       return

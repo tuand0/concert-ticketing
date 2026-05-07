@@ -51,7 +51,7 @@ export class AuthService {
     }
   }
 
-  login(email: string, password: string): Observable<void> {
+  public login(email: string, password: string): Observable<void> {
     return this.http.post<AuthResponse>(`${this.baseApiUrl}/auth/login`, {email, password}).pipe(
       map((response) => {
         const payload = this.decodeJwt(response.token) as JWTPayload | null
@@ -65,7 +65,7 @@ export class AuthService {
     )
   }
 
-  logout(): void {
+  public logout(): void {
     sessionStorage.removeItem('token')
     this._currentUser.set(null)
     this.router.navigate(['/login']).then()

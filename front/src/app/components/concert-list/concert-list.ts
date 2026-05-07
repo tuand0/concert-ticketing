@@ -171,11 +171,17 @@ export class ConcertList implements OnInit {
     this.loadConcerts();
   }
 
-  public onConcertSelect(concert: ConcertModel) {
-    this.router.navigate(['/concerts', concert.id]);
+  public async onConcertSelect(
+    concert: ConcertModel
+  ): Promise<void> {
+
+    await this.router.navigate([
+      '/concerts',
+      concert.id
+    ]);
   }
 
-  public nextPage() {
+  public nextPage():void {
     if (this.currentPage() < this.totalPages()) {
       this.currentPage.update(page => page + 1);
       this.loadConcerts();
