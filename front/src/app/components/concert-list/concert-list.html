@@ -18,7 +18,7 @@
     <div class="filter-controls">
       <select
         [(ngModel)]="selectedGenre"
-        (ngModelChange)="onFilterChange()"
+        (ngModelChange)="onSearchChange()"
         class="filter-select"
       >
         <option value="">All Categories</option>
@@ -27,14 +27,58 @@
         }
       </select>
 
+      <select
+        [ngModel]="pageSize()"
+        (ngModelChange)="onPageSizeChange($event)"
+        class="filter-select"
+      >
+        <option [value]="4">4 per page</option>
+        <option [value]="12">12 per page</option>
+        <option [value]="24">24 per page</option>
+        <option [value]="48">48 per page</option>
+      </select>
+
       <label class="checkbox-label">
         <input
           type="checkbox"
           [(ngModel)]="inStockOnly"
-          (ngModelChange)="onFilterChange()"
+          (ngModelChange)="onSearchChange()"
         />
         In Stock Only
       </label>
+
+        <input
+          type="text"
+          placeholder="Artiste"
+          [(ngModel)]="selectedArtiste"
+          (ngModelChange)="onSearchChange()"
+          class="search-input"
+        />
+
+      <input
+        type="text"
+        placeholder="Ville"
+        [(ngModel)]="selectedVille"
+        (ngModelChange)="onSearchChange()"
+        class="search-input"
+      />
+
+      <input
+        type="number"
+        placeholder="Prix min"
+        [(ngModel)]="prixMin"
+        (ngModelChange)="onSearchChange()"
+        class="search-input"
+      />
+
+      <input
+        type="number"
+        placeholder="Prix max"
+        [(ngModel)]="prixMax"
+        (ngModelChange)="onSearchChange()"
+        class="search-input"
+      />
+
     </div>
   </div>
 

@@ -38,7 +38,7 @@ export class ConcertService {
       );
   }
 
-  searchConcerts(
+  public searchConcerts(
     filter?: ConcertFilter,
     page = 1,
     pageSize = 12
@@ -46,9 +46,7 @@ export class ConcertService {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
+    let params = new HttpParams();
 
     if (filter) {
       if (filter.titre) {
@@ -89,16 +87,20 @@ export class ConcertService {
         map((entities) => {
           this.loadingSignal.set(false);
 
-          const concerts = entities.map((entity) =>
+          const allConcerts = entities.map((entity) =>
             this.concertMapper.mapToModel(entity)
           );
 
+          const startIndex = (page - 1) * pageSize;
+          const endIndex = startIndex + pageSize;
+          const pagedConcerts = allConcerts.slice(startIndex, endIndex);
+
           return {
-            items: concerts,
-            total: concerts.length,
+            items: pagedConcerts,
+            total: allConcerts.length,
             page,
             pageSize,
-            totalPages: Math.ceil(concerts.length / pageSize),
+            totalPages: Math.ceil(allConcerts.length / pageSize),
           };
         }),
         catchError((error) => {

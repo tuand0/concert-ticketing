@@ -17,6 +17,7 @@ import jakarta.persistence.EntityTransaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class DataInitializer {
@@ -45,17 +46,49 @@ public class DataInitializer {
             manager.persist(organisateur);
             manager.persist(client);
 
-            Concert concert1 = createConcert("Coldplay Live", "Coldplay", "Paris", 80, 5000);
-            Concert concert2 = createConcert("Imagine Dragons Tour", "Imagine Dragons", "Lyon", 60, 3000);
-            Concert concert3 = createConcert("DJ Snake Night", "DJ Snake", "Marseille", 50, 2000);
-            Concert concert4 = createConcert("Rock Festival", "Various Artists", "Rennes", 40, 1000);
-            Concert concert5 = createConcert("Jazz Evening", "John Doe Quartet", "Nice", 30, 500);
+            Concert concert1 = createConcert("Coldplay Live", "Coldplay", "Paris", 80, 5000, GenreEnum.ROCK);
+            Concert concert2 = createConcert("Imagine Dragons Tour", "Imagine Dragons", "Lyon", 60, 3000, GenreEnum.ROCK);
+            Concert concert3 = createConcert("DJ Snake Night", "DJ Snake", "Marseille", 50, 2000, GenreEnum.EDM);
+            Concert concert4 = createConcert("Rock Festival", "Various Artists", "Rennes", 40, 1000, GenreEnum.ROCK);
+            Concert concert5 = createConcert("Jazz Evening", "John Doe Quartet", "Nice", 30, 500, GenreEnum.JAZZ);
 
-            manager.persist(concert1);
-            manager.persist(concert2);
-            manager.persist(concert3);
-            manager.persist(concert4);
-            manager.persist(concert5);
+            Concert concert6 = createConcert("Pop Night", "Dua Lipa", "Paris", 75, 4500, GenreEnum.POP);
+            Concert concert7 = createConcert("Electronic Vibes", "David Guetta", "Nice", 65, 3500, GenreEnum.EDM);
+            Concert concert8 = createConcert("Rap Session", "Orelsan", "Caen", 45, 1800, GenreEnum.RAP);
+            Concert concert9 = createConcert("Symphonic Dreams", "Orchestre National", "Strasbourg", 55, 1200, GenreEnum.POP);
+            Concert concert10 = createConcert("Indie Rock Live", "Arctic Monkeys", "Bordeaux", 70, 2800, GenreEnum.ROCK);
+
+            Concert concert11 = createConcert("Reggae Sun", "Dub Inc", "Montpellier", 35, 900, GenreEnum.HIPHOP);
+            Concert concert12 = createConcert("Metal Storm", "Metallica Tribute", "Lille", 85, 4000, GenreEnum.METAL_ROCK);
+            Concert concert13 = createConcert("Acoustic Evening", "Ben Howard", "Nantes", 25, 600, GenreEnum.POP);
+            Concert concert14 = createConcert("Hip Hop Arena", "Ninho", "Paris", 50, 5000, GenreEnum.HIPHOP);
+            Concert concert15 = createConcert("Techno Warehouse", "Amelie Lens", "Lyon", 55, 3000, GenreEnum.EDM);
+
+            Concert concert16 = createConcert("K-Pop Party", "Seoul Stars", "Paris", 70, 4500, GenreEnum.KPOP);
+            Concert concert17 = createConcert("Opera Gala", "Opéra de Paris", "Paris", 90, 2000, GenreEnum.POP);
+            Concert concert18 = createConcert("Punk Rock Show", "Green Day Tribute", "Toulouse", 40, 1300, GenreEnum.ROCK);
+            Concert concert19 = createConcert("Afrobeat Night", "Fela Spirit", "Montpellier", 35, 1100, GenreEnum.POP);
+            Concert concert20 = createConcert("Cinema Music Live", "Movie Orchestra", "Strasbourg", 65, 1700, GenreEnum.POP);
+
+            Concert concert21 = createConcert("Country Roads", "Nashville Band", "Caen", 30, 750, GenreEnum.POP);
+            Concert concert22 = createConcert("Summer Festival", "Various Artists", "Nice", 95, 6000, GenreEnum.POP);
+            Concert concert23 = createConcert("Urban Beats", "SCH", "Marseille", 60, 3200, GenreEnum.RAP);
+            Concert concert24 = createConcert("Electro Sunset", "Martin Garrix", "Cannes", 85, 5500, GenreEnum.EDM);
+            Concert concert25 = createConcert("Jazz & Blues Night", "Blue Note Trio", "Lyon", 35, 850, GenreEnum.JAZZ);
+
+            Concert concert26 = createConcert("Metal Legends", "Iron Maiden Tribute", "Grenoble", 80, 2700, GenreEnum.METAL_ROCK);
+            Concert concert27 = createConcert("Korean Wave", "Black Seoul", "Paris", 90, 7000, GenreEnum.KPOP);
+            Concert concert28 = createConcert("Street Flow", "PNL", "Toulouse", 55, 4100, GenreEnum.HIPHOP);
+            Concert concert29 = createConcert("Classic Pop Hits", "The Pop Band", "Nantes", 45, 1500, GenreEnum.POP);
+            Concert concert30 = createConcert("Rock Revolution", "Muse Tribute", "Lille", 75, 3300, GenreEnum.ROCK);
+            List.of(
+                    concert1, concert2, concert3, concert4, concert5,
+                    concert6, concert7, concert8, concert9, concert10,
+                    concert11, concert12, concert13, concert14, concert15,
+                    concert16, concert17, concert18, concert19, concert20,
+                    concert21, concert22, concert23, concert24, concert25,
+                    concert26, concert27, concert28, concert29, concert30
+            ).forEach(manager::persist);
 
 
             Commande commande = createCommande(client);
@@ -85,7 +118,6 @@ public class DataInitializer {
     private Administrateur createAdministrateur() {
         Administrateur admin = new Administrateur();
         admin.setUserNom("admin");
-        admin.setHashedPassword("admin");
         admin.setNom("LECHEF");
         admin.setPrenom("Baptiste");
         admin.setTelephone("0102030405");
@@ -99,7 +131,6 @@ public class DataInitializer {
     private Organisateur createOrganisateur() {
         Organisateur orga = new Organisateur();
         orga.setUserNom("organisateur");
-        orga.setHashedPassword("organisateur");
         orga.setNom("COMBOURG");
         orga.setPrenom("Adeline");
         orga.setEmail("orga@yopmail.com");
@@ -115,7 +146,6 @@ public class DataInitializer {
     private Client createClient() {
         Client client = new Client();
         client.setUserNom("client");
-        client.setHashedPassword("client");
         client.setNom("DUPONT");
         client.setPrenom("George");
         client.setTelephone("0902030405");
@@ -125,21 +155,7 @@ public class DataInitializer {
         return client;
     }
 
-//    private Concert createConcert() {
-//        Concert concert = new Concert();
-//        concert.setTitre("Mythos");
-//        concert.setArtiste("Imagine Dragons");
-//        concert.setDescription("Super concert de démonstration");
-//        concert.setDate(LocalDateTime.now().plusDays(7));
-//        concert.setLieu("Liberté");
-//        concert.setVille("Rennes");
-//        concert.setGenre(GenreEnum.ROCK);
-//        concert.setPrix(new BigDecimal("49.90"));
-//        concert.setCapacite(100);
-//        concert.setStatut(StatutConcertEnum.PUBLIE);
-//        return concert;
-//    }
-    private Concert createConcert(String titre, String artiste, String ville, int prix, int capacite) {
+    private Concert createConcert(String titre, String artiste, String ville, int prix, int capacite, GenreEnum genre) {
         Concert concert = new Concert();
         concert.setTitre(titre);
         concert.setArtiste(artiste);
@@ -147,7 +163,7 @@ public class DataInitializer {
         concert.setDate(LocalDateTime.now().plusDays((int)(Math.random() * 30 + 1)));
         concert.setLieu("Salle principale");
         concert.setVille(ville);
-        concert.setGenre(GenreEnum.ROCK);
+        concert.setGenre(genre);
         concert.setPrix(BigDecimal.valueOf(prix));
         concert.setCapacite(capacite);
         concert.setStatut(StatutConcertEnum.PUBLIE);
