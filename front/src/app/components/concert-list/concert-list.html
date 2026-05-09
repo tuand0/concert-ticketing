@@ -15,7 +15,7 @@
           class="search-input"
         />
       </div>
-      <p-button size="large" label="All"
+      <p-button size="large" [raised]="true" severity="secondary"
                 [icon]="allFilters() ? 'pi pi-angle-up' : 'pi pi-angle-down'"
                 (onClick)="showAllFilters()"/>
     </div>
@@ -119,6 +119,12 @@
     class="results-wrapper"
     [class.is-updating]="loading()"
   >
+    @if (authService.isOrganisateur()){
+      <div class="create-new-concert">
+        <app-create-concert-card>
+        </app-create-concert-card>
+      </div>
+    }
 
     <app-concert-grid
       [concerts]="concerts()"

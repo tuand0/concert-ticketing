@@ -8,6 +8,8 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {debounceTime, Subject} from 'rxjs';
 import { ButtonModule } from 'primeng/button';
+import { CreateConcertCard } from '../create-concert-card/create-concert-card';
+import {AuthService} from '../../libs/services/auth.service';
 
 @Component({
   standalone: true,
@@ -15,6 +17,7 @@ import { ButtonModule } from 'primeng/button';
   imports: [CommonModule,
     FormsModule,
     ConcertGrid,
+    CreateConcertCard,
     ErrorMessage,
     ButtonModule
   ],
@@ -27,6 +30,7 @@ export class ConcertList implements OnInit {
   private readonly concertService = inject(ConcertService);
   private readonly router = inject(Router);
   private readonly searchSubject = new Subject<void>();
+  public readonly authService = inject(AuthService);
 
   // State signals
   public concerts = signal<ConcertModel[]>([]);

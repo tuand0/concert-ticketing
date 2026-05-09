@@ -5,17 +5,16 @@
     <nav>
       <a routerLink="/concerts" routerLinkActive="active">Home</a>
     </nav>
-    <nav>
-      <a routerLink="/login" routerLinkActive="active">Login</a>
-    </nav>
+
     @if (authService.isLoggedIn()) {
-      <div class="flex items-center gap-3 text-sm">
-        <span class="opacity-80">{{ authService.currentUser()?.email }}</span>
-        <button (click)="authService.logout()"
-                class="bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-colors font-medium cursor-pointer">
-          Déconnexion
-        </button>
+      <div class="login-info">
+        <span class="opacity-80">Hello, {{ authService.currentUser()?.email }}</span>
+        <p-button (click)="authService.logout()" label="Logout" icon="pi pi-sign-out" severity="danger" />
       </div>
+    } @else {
+      <nav>
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+      </nav>
     }
     </div>
   </div>

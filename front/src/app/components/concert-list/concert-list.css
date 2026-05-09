@@ -156,6 +156,16 @@
   transition:
     opacity 0.2s ease,
     transform 0.2s ease;
+
+  .create-new-concert{
+    display: flex;
+    justify-content: center;
+
+    app-create-concert-card {
+      width: fit-content;
+      height: fit-content;
+    }
+  }
 }
 
 .results-wrapper.is-updating {
@@ -178,3 +188,5 @@
     opacity: 0.4;
   }
 }
+
+

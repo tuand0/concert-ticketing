@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import {Router} from '@angular/router';
 import {email, form, FormField, minLength, required} from '@angular/forms/signals';
 import {AuthService} from '../../libs/services/auth.service';
-import {finalize} from 'rxjs';
 import {CommonModule} from '@angular/common';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +34,7 @@ export class Login {
 
   readonly canSubmit = computed(() => this.form().valid() && this.form().touched() && !this.loading())
 
-  protected onSubmit(event: Event) {
+  public onSubmit(event: Event) {
     event.preventDefault()
     if (!this.canSubmit()) {
       return
@@ -48,7 +48,7 @@ export class Login {
         finalize(() => this.loading.set(false))
       )
       .subscribe({
-        next: () => {
+        next: (reponse) => {
           this.router.navigate(['/concerts/']).then()
         },
         error: (err) => {
@@ -56,9 +56,6 @@ export class Login {
           console.error('Connection error', err)
         }
       })
-  }
 
-  public testFct():void{
-    console.log('button works!')
   }
 }
