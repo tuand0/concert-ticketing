@@ -1,3 +1,9 @@
+# Build folders
+out/
+target/
+dist/
+node_modules/
+
 # backend
 back/target/
 back/.mvn/
