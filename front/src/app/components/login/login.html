@@ -33,9 +33,10 @@
         />
       </div>
 
-      <button type="submit" [disabled]="!form().valid() || loading()">
+      <button type="submit" [disabled]="loading()">
         {{ loading() ? 'Connexion en cours...' : 'Se connecter' }}
       </button>
+
     </form>
   </div>
 </div>

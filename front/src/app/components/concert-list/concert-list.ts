@@ -4,10 +4,12 @@ import {ConcertModel, ConcertFilter} from '../../libs/models/concert.model';
 import {ConcertService} from '../../libs/services/concert.service';
 import {ConcertGrid} from '../concert-grid/concert-grid';
 import {ErrorMessage} from '../error-message/error-message';
-import {LoadingSpinner} from '../loading-spinner/loading-spinner';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
+import {debounceTime, Subject} from 'rxjs';
+import { ButtonModule } from 'primeng/button';
+import { CreateConcertCard } from '../create-concert-card/create-concert-card';
+import {AuthService} from '../../libs/services/auth.service';
 
 @Component({
   standalone: true,
@@ -15,8 +17,10 @@ import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
   imports: [CommonModule,
     FormsModule,
     ConcertGrid,
+    CreateConcertCard,
     ErrorMessage,
-    LoadingSpinner],
+    ButtonModule
+  ],
   templateUrl: './concert-list.html',
   styleUrl: './concert-list.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -25,7 +29,8 @@ export class ConcertList implements OnInit {
 
   private readonly concertService = inject(ConcertService);
   private readonly router = inject(Router);
-  private readonly searchSubject = new Subject<string>();
+  private readonly searchSubject = new Subject<void>();
+  public readonly authService = inject(AuthService);
 
   // State signals
   public concerts = signal<ConcertModel[]>([]);
@@ -36,6 +41,7 @@ export class ConcertList implements OnInit {
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   readonly pageSize = signal(12);
+  readonly allFilters = signal(false);
 
   // Filter state
   searchTerm = '';
@@ -55,16 +61,18 @@ export class ConcertList implements OnInit {
   public ngOnInit(): void {
     this.loadGenres();
 
-    // Debounce only search input
-    this.searchSubject.pipe(
-      debounceTime(600),
-      distinctUntilChanged()
-    ).subscribe(() => {
-      this.currentPage.set(1);
-      this.loadConcerts();
-    });
+    this.searchSubject
+      .pipe(debounceTime(400))
+      .subscribe(() => {
+        this.currentPage.set(1);
+        this.loadConcerts();
+      });
 
     this.loadConcerts();
+  }
+
+  protected showAllFilters():void {
+    this.allFilters.update(value => !value);
   }
 
   protected loadGenres(): void {
@@ -107,7 +115,7 @@ export class ConcertList implements OnInit {
     }
 
     if (this.inStockOnly) {
-          filter.inStock = true;
+      filter.inStock = true;
     }
 
     if (this.prixMin !== undefined && this.prixMin !== null) {
@@ -137,7 +145,6 @@ export class ConcertList implements OnInit {
           this.concerts.set(response.items);
           this.totalconcerts.set(response.total);
           this.totalPages.set(response.totalPages);
-
           this.loading.set(false);
         },
 
@@ -160,8 +167,7 @@ export class ConcertList implements OnInit {
   }
 
   public onSearchChange() {
-    this.currentPage.set(1);
-    this.loadConcerts();
+    this.searchSubject.next();
   }
 
   public onFilterChange() {
@@ -169,11 +175,17 @@ export class ConcertList implements OnInit {
     this.loadConcerts();
   }
 
-  public onConcertSelect(concert: ConcertModel) {
-    this.router.navigate(['/concerts', concert.id]);
+  public async onConcertSelect(
+    concert: ConcertModel
+  ): Promise<void> {
+
+    await this.router.navigate([
+      '/concerts',
+      concert.id
+    ]);
   }
 
-  public nextPage() {
+  public nextPage():void {
     if (this.currentPage() < this.totalPages()) {
       this.currentPage.update(page => page + 1);
       this.loadConcerts();

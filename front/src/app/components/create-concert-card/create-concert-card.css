@@ -1,0 +1,39 @@
+.create-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 24px;
+  border: none;
+  border-radius: 18px;
+
+  background: #ff7a3d;
+  color: white;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.create-button:hover {
+  background: #f2672c;
+  transform: translateY(-1px);
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid white;
+  border-radius: 6px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}

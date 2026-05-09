@@ -5,16 +5,19 @@ import fr.istic.taa.jaxrs.domain.Utilisateur;
 import fr.istic.taa.jaxrs.dto.LoginDTO;
 import fr.istic.taa.jaxrs.utils.JwtUtil;
 import fr.istic.taa.jaxrs.utils.PasswordUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.Set;
 
 @Path("auth")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Tag(name = "Auth", description = "Authentication endpoints")
 public class AuthResource {
 
     private final UtilisateurDao utilisateurDao = new UtilisateurDao();
@@ -23,6 +26,7 @@ public class AuthResource {
 
     @POST
     @Path("/login")
+    @Operation(summary = "Login", description = "Authenticate user and return JWT token")
     public Response login(@Valid LoginDTO loginDTO) {
         Utilisateur utilisateur = utilisateurDao.findByEmail(loginDTO.getEmail());
 

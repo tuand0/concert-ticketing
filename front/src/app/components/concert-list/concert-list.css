@@ -29,6 +29,7 @@
 
 .search-box {
   margin-bottom: 16px;
+  width: 100%;
 }
 
 .search-input {
@@ -51,6 +52,12 @@
   gap: 16px;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.more-filters {
+  width: 100%;
+  display: flex;
+  gap: 1em;
 }
 
 .filter-select {
@@ -131,3 +138,55 @@
     align-items: stretch;
   }
 }
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.soft-loading {
+  font-size: 0.9rem;
+  color: #666;
+  animation: pulse 1s infinite;
+}
+
+.results-wrapper {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+
+  .create-new-concert{
+    display: flex;
+    justify-content: center;
+
+    app-create-concert-card {
+      width: fit-content;
+      height: fit-content;
+    }
+  }
+}
+
+.results-wrapper.is-updating {
+  opacity: 0.6;
+  transform: translateY(2px);
+  pointer-events: none;
+}
+
+@keyframes pulse {
+
+  0% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
+}
+
+

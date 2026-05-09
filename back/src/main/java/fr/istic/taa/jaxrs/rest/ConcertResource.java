@@ -50,22 +50,6 @@ public class ConcertResource {
         return service.findOne(id);
     }
 
-//    @GET
-//    @Path("/")
-//    @Operation(
-//            summary = "Lister tous les concerts",
-//            description = "Retourne la liste complète de tous les concerts disponibles"
-//    )
-//    @ApiResponse(
-//            responseCode = "200",
-//            description = "Liste de tous les concerts",
-//            content = @Content(array = @ArraySchema(schema = @Schema(implementation = Concert.class)))
-//    )
-//    public List<Concert> getConcerts() {
-//        return service.findAll();
-//    }
-
-
     @GET
     @Path("/")
     @Operation(

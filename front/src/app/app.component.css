@@ -16,6 +16,14 @@
   .btn-container{
     display: flex;
     flex-direction: row;
+    gap:0.5em
+  }
+
+  .login-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:0.5em
   }
 }
 

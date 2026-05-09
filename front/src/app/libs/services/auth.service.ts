@@ -32,11 +32,18 @@ export class AuthService {
     if (!token) {
       return
     }
+
     const payload = this.decodeJwt(token) as JWTPayload | null
+    const storedRole = sessionStorage.getItem('role');
+
     if (payload) {
       this._currentUser.set({
         email: payload.email ?? payload.sub ?? '',
-        roles: payload.roles ?? [],
+        roles: payload.roles?.length
+          ? payload.roles
+          : storedRole
+            ? [storedRole]
+            : [],
         token,
       })
     }
@@ -51,23 +58,40 @@ export class AuthService {
     }
   }
 
-  login(email: string, password: string): Observable<void> {
+  public login(email: string, password: string): Observable<void> {
     return this.http.post<AuthResponse>(`${this.baseApiUrl}/auth/login`, {email, password}).pipe(
       map((response) => {
         const payload = this.decodeJwt(response.token) as JWTPayload | null
+
+        const roles = payload?.roles?.length
+          ? payload.roles
+          : [response.role];
+
         sessionStorage.setItem('token', response.token)
+        sessionStorage.setItem('role', response.role);
+
         this._currentUser.set({
           email,
-          roles: payload?.roles ?? [],
+          roles,
           token: response.token,
         })
       }),
     )
   }
 
-  logout(): void {
+  public logout(): void {
     sessionStorage.removeItem('token')
+    sessionStorage.removeItem('role')
     this._currentUser.set(null)
-    this.router.navigate(['/login']).then()
+    this.router.navigate(['/']).then()
+  }
+
+  public isAdmin(): boolean {
+    return this._currentUser()?.roles.includes('administrateur')
+      ?? false
+  }
+
+  public isOrganisateur(): boolean {
+      return this._currentUser()?.roles.includes('organisateur') ?? false;
   }
 }

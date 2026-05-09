@@ -5,9 +5,17 @@
     <nav>
       <a routerLink="/concerts" routerLinkActive="active">Home</a>
     </nav>
-    <nav>
-      <a routerLink="/login" routerLinkActive="active">Login</a>
-    </nav>
+
+    @if (authService.isLoggedIn()) {
+      <div class="login-info">
+        <span class="opacity-80">Hello, {{ authService.currentUser()?.email }}</span>
+        <p-button (click)="authService.logout()" label="Logout" icon="pi pi-sign-out" severity="danger" />
+      </div>
+    } @else {
+      <nav>
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+      </nav>
+    }
     </div>
   </div>
 </header>

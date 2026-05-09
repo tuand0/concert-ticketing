@@ -16,28 +16,11 @@
    </div>
     <div class="concert-info">
       <h3 class="concert-name">{{ concert().titre }}</h3>
-      <div class="concert-price">
-        {{ concert().prix }}
-      </div>
       <p><strong>Artiste:</strong> {{ concert().artiste }}</p>
       <p><strong>Ville:</strong> {{ concert().ville }}</p>
       <p><strong>Lieu:</strong> {{ concert().lieu }}</p>
-      <p><strong>Date:</strong> {{ concert().date }}</p>
+      <p><strong>Date:</strong> {{ concert().date | date:'dd/MM/yyyy'}}</p>
       <p><strong>Prix:</strong> {{ concert().prix }} €</p>
       <p><strong>Genre:</strong> {{ concert().genre }}</p>
     </div>
   </div>
-
-
-
-  <!--  (keyup.enter)="concertClick.emit(concert())"-->
-  <!--  (keyup.space)="concertClick.emit(concert())"-->
-  <!--  [class.out-of-stock]="!concert().inStock"-->
-<!--
-tabindex="0"
-  role="button"
-  [attr.aria-label]="'View details for ' + concert().name"
-  >
-
-@for (concert of concerts; track concert.id){
--->

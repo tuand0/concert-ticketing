@@ -20,6 +20,7 @@ public class TestApplication extends Application {
             ConcertResource.class,
             TicketResource.class,
             ClientResource.class,
+            AuthResource.class,
             ClientErrorExceptionMapper.class,
             ConstraintViolationExceptionMapper.class,
             MyObjectMapperProvider.class,
