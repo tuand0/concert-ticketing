@@ -120,4 +120,14 @@ export class ConcertService {
         })
       );
   }
+
+  public createConcert(
+    concert: Partial<ConcertModel>
+  ): Observable<void> {
+
+    return this.http.post<void>(
+      `${this.baseApiUrl}/concerts`,
+      concert
+    );
+  }
 }

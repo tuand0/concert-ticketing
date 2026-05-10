@@ -121,7 +121,8 @@
   >
     @if (authService.isOrganisateur()){
       <div class="create-new-concert">
-        <app-create-concert-card>
+        <app-create-concert-card
+        (concertCreated)="loadConcerts()">
         </app-create-concert-card>
       </div>
     }

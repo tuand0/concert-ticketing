@@ -35,9 +35,11 @@ export class AuthService {
 
     const payload = this.decodeJwt(token) as JWTPayload | null
     const storedRole = sessionStorage.getItem('role');
+    const storedId = sessionStorage.getItem('userId');
 
     if (payload) {
       this._currentUser.set({
+        id: storedId ? Number(storedId) : 0,
         email: payload.email ?? payload.sub ?? '',
         roles: payload.roles?.length
           ? payload.roles
@@ -69,8 +71,10 @@ export class AuthService {
 
         sessionStorage.setItem('token', response.token)
         sessionStorage.setItem('role', response.role);
+        sessionStorage.setItem('userId', response.userId.toString());
 
         this._currentUser.set({
+          id: response.userId,
           email,
           roles,
           token: response.token,
@@ -82,6 +86,7 @@ export class AuthService {
   public logout(): void {
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('role')
+    sessionStorage.removeItem('userId');
     this._currentUser.set(null)
     this.router.navigate(['/']).then()
   }
@@ -93,5 +98,17 @@ export class AuthService {
 
   public isOrganisateur(): boolean {
       return this._currentUser()?.roles.includes('organisateur') ?? false;
+  }
+
+  public getCurrentUserId(): number | null {
+    const user = this._currentUser();
+
+    if (user) {
+      return user.id;
+    }
+
+    const storedId = sessionStorage.getItem('userId');
+
+    return storedId ? Number(storedId) : null;
   }
 }

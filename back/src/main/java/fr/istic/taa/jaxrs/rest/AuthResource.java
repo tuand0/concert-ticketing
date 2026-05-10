@@ -22,7 +22,7 @@ public class AuthResource {
 
     private final UtilisateurDao utilisateurDao = new UtilisateurDao();
 
-    record LoginResponse(String token, String role) {}
+    record LoginResponse(String token, String role, Long userId) {}
 
     @POST
     @Path("/login")
@@ -38,6 +38,6 @@ public class AuthResource {
         Set<String> roles = Set.of(roleName);
         String token = JwtUtil.generateToken(utilisateur.getEmail(), roles);
 
-        return Response.ok(new LoginResponse(token, roleName)).build();
+        return Response.ok(new LoginResponse(token, roleName, utilisateur.getId())).build();
     }
 }

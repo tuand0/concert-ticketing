@@ -1,0 +1,61 @@
+<div class="dialog-container">
+  <h2 class="dialog-title">Create new concert</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="dialog-form">
+    <div class="form-group">
+      <label>Titre</label>
+      <input type="text" formControlName="titre" />
+    </div>
+
+    <div class="form-group">
+      <label>Artiste</label>
+      <input type="text" formControlName="artiste" />
+    </div>
+
+    <div class="form-group">
+      <label>Lieu</label>
+      <input type="text" formControlName="lieu" />
+    </div>
+
+    <div class="form-group">
+      <label>Ville</label>
+      <input type="text" formControlName="ville" />
+    </div>
+
+    <div class="form-group full-width">
+      <label>Description</label>
+      <textarea formControlName="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Date</label>
+      <input type="datetime-local" formControlName="dateTime" />
+    </div>
+
+    <div class="form-group">
+      <label>Prix</label>
+      <input type="number" formControlName="prix" />
+    </div>
+
+    <div class="form-group">
+      <label>Capacité</label>
+      <input type="number" formControlName="capacite" />
+    </div>
+
+    <div class="form-group">
+      <label>Genre</label>
+      <select formControlName="genre">
+        <option value="">Select genre</option>
+        <option value="ROCK">ROCK</option>
+        <option value="POP">POP</option>
+        <option value="JAZZ">JAZZ</option>
+        <option value="EDM">EDM</option>
+      </select>
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" class="btn-cancel" (click)="close()">Cancel</button>
+      <button type="submit" class="btn-save">Save</button>
+    </div>
+  </form>
+</div>
