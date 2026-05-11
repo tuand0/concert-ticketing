@@ -78,43 +78,55 @@ public class CommandeService {
     }
 
     public Commande addConcertToCart(Long clientId, Long concertId) {
+        try {
+            EntityManagerHelper.beginTransaction();
 
-        Client client = clientDao.findOne(clientId);
-        if (client == null) {
-            throw new BadRequestException("Client non trouvé");
+            validateClientId(clientId);
+
+            Client client = clientDao.findOne(clientId);
+            if (client == null) {
+                throw new BadRequestException("Client non trouvé");
+            }
+
+            Concert concert = concertDao.findOne(concertId);
+            if (concert == null) {
+                throw new BadRequestException("Concert non trouvé");
+            }
+
+            Commande commande = commandeDao.findPendingByClientId(clientId);
+
+            if (commande == null) {
+                commande = new Commande();
+                commande.setClient(client);
+                commande.setDateCommande(LocalDateTime.now());
+                commande.setStatut(StatutCommandeEnum.EN_ATTENTE);
+                commande.setMontantTotal(BigDecimal.ZERO);
+                commandeDao.save(commande);
+            }
+
+            Ticket ticket = new Ticket();
+            ticket.setCommande(commande);
+            ticket.setConcert(concert);
+            ticket.setPrix(concert.getPrix());
+            ticket.setDateAchat(LocalDateTime.now());
+            ticket.setStatut(StatutTicketEnum.ACTIF);
+
+            ticketDao.save(ticket);
+
+            commande.getTickets().add(ticket);
+            commande.setMontantTotal(
+                    commande.getMontantTotal().add(concert.getPrix())
+            );
+
+            EntityManagerHelper.commit();
+            return commande;
+
+        } catch (RuntimeException e) {
+            EntityManagerHelper.rollback();
+            throw e;
+        } finally {
+            EntityManagerHelper.closeEntityManager();
         }
-
-        Concert concert = concertDao.findOne(concertId);
-        if (concert == null) {
-            throw new BadRequestException("Concert non trouvé");
-        }
-
-        Commande commande = commandeDao.findPendingByClientId(clientId);
-
-        if (commande == null) {
-            commande = new Commande();
-            commande.setClient(client);
-            commande.setDateCommande(LocalDateTime.now());
-            commande.setStatut(StatutCommandeEnum.EN_ATTENTE);
-            commande.setMontantTotal(BigDecimal.ZERO);
-            commandeDao.save(commande);
-        }
-
-        Ticket ticket = new Ticket();
-        ticket.setConcert(concert);
-        ticket.setCommande(commande);
-        ticket.setPrix(concert.getPrix());
-        ticket.setDateAchat(LocalDateTime.now());
-        ticket.setStatut(StatutTicketEnum.ACTIF);
-
-        ticketDao.save(ticket);
-
-        commande.getTickets().add(ticket);
-        commande.setMontantTotal(
-                commande.getMontantTotal().add(concert.getPrix())
-        );
-
-        return commande;
     }
 
     public Commande removeTicket(Long clientId, Long ticketId) {

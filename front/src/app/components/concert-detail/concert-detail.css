@@ -217,3 +217,26 @@
     flex-direction: column;
   }
 }
+
+.ticket-availability {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+.ticket-availability p {
+  margin: 0.25rem 0;
+  color: #374151;
+}
+
+.ticket-availability strong {
+  color: #111827;
+  font-weight: 700;
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

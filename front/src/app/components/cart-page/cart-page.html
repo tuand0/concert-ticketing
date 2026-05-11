@@ -12,16 +12,13 @@
   } @else {
   @for (commande of pendingCommandes; track commande.id) {
   <div class="commande-block">
-    <h4>Order {{ commande.numeroCommande }}</h4>
 
     @for (ticket of commande.tickets; track ticket.id) {
     <div class="cart-item">
       <h4>{{ ticket.concertTitre }}</h4>
-
       <p>{{ ticket.concertArtiste }}</p>
       <p>{{ ticket.concertVille }} - {{ ticket.concertLieu }}</p>
       <p>{{ ticket.concertDate }}</p>
-      <p>Ticket: {{ ticket.numeroTicket }}</p>
       <p>Status: {{ ticket.statut }}</p>
       <p>{{ ticket.prix }} €</p>
 
@@ -31,9 +28,7 @@
     </div>
     }
 
-    <p>
-      <strong>Total: {{ commande.montantTotal }} €</strong>
-    </p>
+    <p><strong>Total: {{ commande.montantTotal }} €</strong></p>
 
     <button type="button" (click)="confirmCart()">
       Confirm order
@@ -42,8 +37,6 @@
   }
   }
 </section>
-
-<hr />
 
 <section>
   <h3>Paid tickets</h3>
@@ -59,7 +52,6 @@
     @for (ticket of commande.tickets; track ticket.id) {
     <div class="cart-item">
       <h4>{{ ticket.concertTitre }}</h4>
-
       <p>{{ ticket.concertArtiste }}</p>
       <p>{{ ticket.concertVille }} - {{ ticket.concertLieu }}</p>
       <p>{{ ticket.concertDate }}</p>
@@ -68,9 +60,7 @@
     </div>
     }
 
-    <p>
-      <strong>Total paid: {{ commande.montantTotal }} €</strong>
-    </p>
+    <p><strong>Total paid: {{ commande.montantTotal }} €</strong></p>
   </div>
   }
   }

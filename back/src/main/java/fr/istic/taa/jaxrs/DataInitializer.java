@@ -46,41 +46,41 @@ public class DataInitializer {
             manager.persist(organisateur);
             manager.persist(client);
 
-            Concert concert1 = createConcert("Coldplay Live", "Coldplay", "Paris", 80, 5000, GenreEnum.ROCK);
-            Concert concert2 = createConcert("Imagine Dragons Tour", "Imagine Dragons", "Lyon", 60, 3000, GenreEnum.ROCK);
-            Concert concert3 = createConcert("DJ Snake Night", "DJ Snake", "Marseille", 50, 2000, GenreEnum.EDM);
-            Concert concert4 = createConcert("Rock Festival", "Various Artists", "Rennes", 40, 1000, GenreEnum.ROCK);
-            Concert concert5 = createConcert("Jazz Evening", "John Doe Quartet", "Nice", 30, 500, GenreEnum.JAZZ);
+            Concert concert1 = createConcert("Coldplay Live", "Coldplay", "Paris", 80, GenreEnum.ROCK);
+            Concert concert2 = createConcert("Imagine Dragons Tour", "Imagine Dragons", "Lyon", 60,  GenreEnum.ROCK);
+            Concert concert3 = createConcert("DJ Snake Night", "DJ Snake", "Marseille", 50,  GenreEnum.EDM);
+            Concert concert4 = createConcert("Rock Festival", "Various Artists", "Rennes", 40,  GenreEnum.ROCK);
+            Concert concert5 = createConcert("Jazz Evening", "John Doe Quartet", "Nice", 30,  GenreEnum.JAZZ);
 
-            Concert concert6 = createConcert("Pop Night", "Dua Lipa", "Paris", 75, 4500, GenreEnum.POP);
-            Concert concert7 = createConcert("Electronic Vibes", "David Guetta", "Nice", 65, 3500, GenreEnum.EDM);
-            Concert concert8 = createConcert("Rap Session", "Orelsan", "Caen", 45, 1800, GenreEnum.RAP);
-            Concert concert9 = createConcert("Symphonic Dreams", "Orchestre National", "Strasbourg", 55, 1200, GenreEnum.POP);
-            Concert concert10 = createConcert("Indie Rock Live", "Arctic Monkeys", "Bordeaux", 70, 2800, GenreEnum.ROCK);
+            Concert concert6 = createConcert("Pop Night", "Dua Lipa", "Paris", 75,  GenreEnum.POP);
+            Concert concert7 = createConcert("Electronic Vibes", "David Guetta", "Nice", 65, GenreEnum.EDM);
+            Concert concert8 = createConcert("Rap Session", "Orelsan", "Caen", 45,  GenreEnum.RAP);
+            Concert concert9 = createConcert("Symphonic Dreams", "Orchestre National", "Strasbourg", 55,  GenreEnum.POP);
+            Concert concert10 = createConcert("Indie Rock Live", "Arctic Monkeys", "Bordeaux", 70,  GenreEnum.ROCK);
 
-            Concert concert11 = createConcert("Reggae Sun", "Dub Inc", "Montpellier", 35, 900, GenreEnum.HIPHOP);
-            Concert concert12 = createConcert("Metal Storm", "Metallica Tribute", "Lille", 85, 4000, GenreEnum.METAL_ROCK);
-            Concert concert13 = createConcert("Acoustic Evening", "Ben Howard", "Nantes", 25, 600, GenreEnum.POP);
-            Concert concert14 = createConcert("Hip Hop Arena", "Ninho", "Paris", 50, 5000, GenreEnum.HIPHOP);
-            Concert concert15 = createConcert("Techno Warehouse", "Amelie Lens", "Lyon", 55, 3000, GenreEnum.EDM);
+            Concert concert11 = createConcert("Reggae Sun", "Dub Inc", "Montpellier", 35,  GenreEnum.HIPHOP);
+            Concert concert12 = createConcert("Metal Storm", "Metallica Tribute", "Lille", 85,  GenreEnum.METAL_ROCK);
+            Concert concert13 = createConcert("Acoustic Evening", "Ben Howard", "Nantes", 25,  GenreEnum.POP);
+            Concert concert14 = createConcert("Hip Hop Arena", "Ninho", "Paris", 50,  GenreEnum.HIPHOP);
+            Concert concert15 = createConcert("Techno Warehouse", "Amelie Lens", "Lyon", 55,  GenreEnum.EDM);
 
-            Concert concert16 = createConcert("K-Pop Party", "Seoul Stars", "Paris", 70, 4500, GenreEnum.KPOP);
-            Concert concert17 = createConcert("Opera Gala", "Opéra de Paris", "Paris", 90, 2000, GenreEnum.POP);
-            Concert concert18 = createConcert("Punk Rock Show", "Green Day Tribute", "Toulouse", 40, 1300, GenreEnum.ROCK);
-            Concert concert19 = createConcert("Afrobeat Night", "Fela Spirit", "Montpellier", 35, 1100, GenreEnum.POP);
-            Concert concert20 = createConcert("Cinema Music Live", "Movie Orchestra", "Strasbourg", 65, 1700, GenreEnum.POP);
+            Concert concert16 = createConcert("K-Pop Party", "Seoul Stars", "Paris", 70,  GenreEnum.KPOP);
+            Concert concert17 = createConcert("Opera Gala", "Opéra de Paris", "Paris", 90,  GenreEnum.POP);
+            Concert concert18 = createConcert("Punk Rock Show", "Green Day Tribute", "Toulouse", 40,  GenreEnum.ROCK);
+            Concert concert19 = createConcert("Afrobeat Night", "Fela Spirit", "Montpellier", 35,  GenreEnum.POP);
+            Concert concert20 = createConcert("Cinema Music Live", "Movie Orchestra", "Strasbourg", 65,  GenreEnum.POP);
 
-            Concert concert21 = createConcert("Country Roads", "Nashville Band", "Caen", 30, 750, GenreEnum.POP);
-            Concert concert22 = createConcert("Summer Festival", "Various Artists", "Nice", 95, 6000, GenreEnum.POP);
-            Concert concert23 = createConcert("Urban Beats", "SCH", "Marseille", 60, 3200, GenreEnum.RAP);
-            Concert concert24 = createConcert("Electro Sunset", "Martin Garrix", "Cannes", 85, 5500, GenreEnum.EDM);
-            Concert concert25 = createConcert("Jazz & Blues Night", "Blue Note Trio", "Lyon", 35, 850, GenreEnum.JAZZ);
+            Concert concert21 = createConcert("Country Roads", "Nashville Band", "Caen", 30,  GenreEnum.POP);
+            Concert concert22 = createConcert("Summer Festival", "Various Artists", "Nice", 95,  GenreEnum.POP);
+            Concert concert23 = createConcert("Urban Beats", "SCH", "Marseille", 60,  GenreEnum.RAP);
+            Concert concert24 = createConcert("Electro Sunset", "Martin Garrix", "Cannes", 85,  GenreEnum.EDM);
+            Concert concert25 = createConcert("Jazz & Blues Night", "Blue Note Trio", "Lyon", 35,  GenreEnum.JAZZ);
 
-            Concert concert26 = createConcert("Metal Legends", "Iron Maiden Tribute", "Grenoble", 80, 2700, GenreEnum.METAL_ROCK);
-            Concert concert27 = createConcert("Korean Wave", "Black Seoul", "Paris", 90, 7000, GenreEnum.KPOP);
-            Concert concert28 = createConcert("Street Flow", "PNL", "Toulouse", 55, 4100, GenreEnum.HIPHOP);
-            Concert concert29 = createConcert("Classic Pop Hits", "The Pop Band", "Nantes", 45, 1500, GenreEnum.POP);
-            Concert concert30 = createConcert("Rock Revolution", "Muse Tribute", "Lille", 75, 3300, GenreEnum.ROCK);
+            Concert concert26 = createConcert("Metal Legends", "Iron Maiden Tribute", "Grenoble", 80,  GenreEnum.METAL_ROCK);
+            Concert concert27 = createConcert("Korean Wave", "Black Seoul", "Paris", 90,  GenreEnum.KPOP);
+            Concert concert28 = createConcert("Street Flow", "PNL", "Toulouse", 55,  GenreEnum.HIPHOP);
+            Concert concert29 = createConcert("Classic Pop Hits", "The Pop Band", "Nantes", 45,  GenreEnum.POP);
+            Concert concert30 = createConcert("Rock Revolution", "Muse Tribute", "Lille", 75,  GenreEnum.ROCK);
             List.of(
                     concert1, concert2, concert3, concert4, concert5,
                     concert6, concert7, concert8, concert9, concert10,
@@ -155,7 +155,7 @@ public class DataInitializer {
         return client;
     }
 
-    private Concert createConcert(String titre, String artiste, String ville, int prix, int capacite, GenreEnum genre) {
+    private Concert createConcert(String titre, String artiste, String ville, int prix, GenreEnum genre) {
         Concert concert = new Concert();
         concert.setTitre(titre);
         concert.setArtiste(artiste);
@@ -165,7 +165,7 @@ public class DataInitializer {
         concert.setVille(ville);
         concert.setGenre(genre);
         concert.setPrix(BigDecimal.valueOf(prix));
-        concert.setCapacite(capacite);
+        concert.setCapacite(5);
         concert.setStatut(StatutConcertEnum.BROUILLON);
         return concert;
     }

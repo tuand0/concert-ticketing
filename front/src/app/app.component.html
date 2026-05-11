@@ -1,19 +1,21 @@
 <header class="app-header">
   <div class="container">
     <h1 routerLink="/concerts">{{ title }}</h1>
+    @if (authService.isLoggedIn()) {
+      <div class="login-info">
+        <span class="opacity-80">Hello, {{ authService.currentUser()?.email }}</span>
+      </div>
+    }
     <div class="btn-container">
     <nav>
       <a routerLink="/concerts" routerLinkActive="active">Home</a>
     </nav>
 
     @if (authService.isLoggedIn()) {
-      <div class="login-info">
-        <span class="opacity-80">Hello, {{ authService.currentUser()?.email }}</span>
-        <p-button (click)="authService.logout()" label="Logout" icon="pi pi-sign-out" severity="danger" />
-      </div>
       <nav>
         <a routerLink="/cart" routerLinkActive="active">My Cart</a>
       </nav>
+      <p-button (click)="authService.logout()" label="Logout" icon="pi pi-sign-out" severity="danger" />
     } @else {
       <nav>
         <a routerLink="/login" routerLinkActive="active">Login</a>

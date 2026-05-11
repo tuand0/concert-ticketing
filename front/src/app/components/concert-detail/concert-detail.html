@@ -37,15 +37,33 @@
           <p>{{ concert()!.description }}</p>
         </div>
 
+        <div class="ticket-availability">
+          <p>
+            Available tickets:
+            <strong>{{ getRemainingTickets() }}</strong>
+            / {{ concert()!.capacite }}
+          </p>
+
+          <p>
+            In your cart:
+            <strong>{{ getTicketCountInCart(concert()!.id) }}</strong>
+          </p>
+        </div>
+
         <div class="concert-actions">
-          @if (concert()!.inStock) {
-            <button class="btn-primary" (click)="addToCart(concert()!.id)">
-              Add to Cart
-            </button>
+          @if (concert()!.inStock && getRemainingTickets() > 0) {
+          <button
+            class="btn-primary"
+            type="button"
+            (click)="addToCart(concert()!.id)"
+            [disabled]="isAddingToCart(concert()!.id) || getRemainingTickets() <= 0"
+          >
+            Add to Cart
+          </button>
           } @else {
-            <button class="btn-disabled" disabled>
-              Currently Unavailable
-            </button>
+          <button class="btn-disabled" disabled>
+            Currently Unavailable
+          </button>
           }
         </div>
 

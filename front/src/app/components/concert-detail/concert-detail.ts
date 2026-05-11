@@ -21,6 +21,8 @@ export class ConcertDetail {
 
   private readonly route = inject(ActivatedRoute);
   private readonly concertsService = inject(ConcertService);
+  public pendingTicketCountByConcertId = new Map<number, number>();
+  public addingToCartIds = new Set<number>();
 
   // State signals
   readonly concert = signal<ConcertModel | null>(null);
@@ -33,6 +35,33 @@ export class ConcertDetail {
   )
   {
     this.loadconcert();
+    this.loadPendingTicketsInCart()
+  }
+
+  private loadPendingTicketsInCart(): void {
+    const clientId = Number(this.authService.getCurrentUserId());
+
+    this.commandeService.getCommandesByClient(clientId).subscribe({
+      next: commandes => {
+        const pendingCommandes = commandes.filter(
+          commande => commande.statut === 'EN_ATTENTE'
+        );
+
+        const countByConcertId = new Map<number, number>();
+
+        for (const commande of pendingCommandes) {
+          for (const ticket of commande.tickets ?? []) {
+            const currentCount = countByConcertId.get(ticket.concertId) ?? 0;
+            countByConcertId.set(ticket.concertId, currentCount + 1);
+          }
+        }
+
+        this.pendingTicketCountByConcertId = countByConcertId;
+      },
+      error: err => {
+        console.error('Load pending tickets failed:', err);
+      }
+    });
   }
 
   protected loadconcert() {
@@ -65,21 +94,47 @@ export class ConcertDetail {
   }
 
   protected addToCart(concertId: number): void {
+    if (this.isAddingToCart(concertId)) {
+      return;
+    }
+
+    if (this.getRemainingTickets() <= 0) {
+      return;
+    }
+
+    this.addingToCartIds.add(concertId);
+
     const clientId = Number(this.authService.getCurrentUserId());
 
     this.commandeService.addConcertToCart(clientId, concertId).subscribe({
       next: () => {
-        console.log('Concert added to cart');
+        this.addingToCartIds.delete(concertId);
+        this.loadPendingTicketsInCart();
       },
       error: err => {
         console.error('Add to cart failed:', err);
+        this.addingToCartIds.delete(concertId);
       }
     });
   }
 
-  protected  addToWishlist() {
-    // This would typically call a wishlist service
-    console.log('Adding to wishlist:', this.concert()?.id);
-    alert('concert added to wishlist!');
+  protected getTicketCountInCart(concertId: number): number {
+    return this.pendingTicketCountByConcertId.get(concertId) ?? 0;
+  }
+
+  protected getRemainingTickets(): number {
+    const currentConcert = this.concert();
+
+    if (!currentConcert) {
+      return 0;
+    }
+
+    const alreadyInCart = this.getTicketCountInCart(currentConcert.id);
+
+    return Math.max(currentConcert.capacite - alreadyInCart, 0);
+  }
+
+  protected isAddingToCart(concertId: number): boolean {
+    return this.addingToCartIds.has(concertId);
   }
 }

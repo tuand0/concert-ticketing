@@ -27,18 +27,19 @@ public class CommandeDao extends AbstractJpaDao<Long, Commande> {
     }
 
     public Commande findPendingByClientId(Long clientId) {
-        return getEntityManager()
+        List<Commande> commandes = getEntityManager()
                 .createQuery("""
-                SELECT c FROM Commande c
+                SELECT DISTINCT c FROM Commande c
                 LEFT JOIN FETCH c.tickets t
                 LEFT JOIN FETCH t.concert
                 WHERE c.client.id = :clientId
                 AND c.statut = :statut
+                ORDER BY c.dateCommande DESC
             """, Commande.class)
                 .setParameter("clientId", clientId)
                 .setParameter("statut", StatutCommandeEnum.EN_ATTENTE)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
+                .getResultList();
+
+        return commandes.isEmpty() ? null : commandes.get(0);
     }
 }
