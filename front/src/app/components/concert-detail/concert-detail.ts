@@ -4,6 +4,8 @@ import {ConcertService} from '../../libs/services/concert.service';
 import {ConcertModel} from '../../libs/models/concert.model';
 import {ErrorMessage} from '../error-message/error-message';
 import {LoadingSpinner} from '../loading-spinner/loading-spinner';
+import {AuthService} from '../../libs/services/auth.service';
+import {CommandeService} from '../../libs/services/commande.service';
 
 @Component({
   selector: 'app-concert-detail',
@@ -18,7 +20,6 @@ import {LoadingSpinner} from '../loading-spinner/loading-spinner';
 export class ConcertDetail {
 
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   private readonly concertsService = inject(ConcertService);
 
   // State signals
@@ -26,7 +27,11 @@ export class ConcertDetail {
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
 
-  ngOnInit() {
+  public constructor(
+    private readonly commandeService: CommandeService,
+    private readonly authService: AuthService
+  )
+  {
     this.loadconcert();
   }
 
@@ -59,10 +64,17 @@ export class ConcertDetail {
     });
   }
 
-  protected addToCart() {
-    // This would typically call a cart service
-    console.log('Adding to cart:', this.concert()?.id);
-    alert('concert added to cart!');
+  protected addToCart(concertId: number): void {
+    const clientId = Number(this.authService.getCurrentUserId());
+
+    this.commandeService.addConcertToCart(clientId, concertId).subscribe({
+      next: () => {
+        console.log('Concert added to cart');
+      },
+      error: err => {
+        console.error('Add to cart failed:', err);
+      }
+    });
   }
 
   protected  addToWishlist() {

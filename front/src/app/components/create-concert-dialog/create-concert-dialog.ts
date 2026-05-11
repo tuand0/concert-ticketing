@@ -1,29 +1,24 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
 import { ConcertService } from '../../libs/services/concert.service';
 import  {AuthService} from '../../libs/services/auth.service';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
+import {GenreEnum} from '../../libs/enums/genre-enum';
 
 @Component({
   selector: 'app-create-concert-dialog',
   standalone: true,
-  imports: [ ReactiveFormsModule,ButtonModule, DialogModule, InputTextModule],
+  imports: [ ReactiveFormsModule],
+  styleUrl: './create-concert-dialog.css',
   templateUrl: './create-concert-dialog.html',
 })
 export class CreateConcertDialog {
 
+  public genres = Object.values(GenreEnum);
   private readonly concertService = inject(ConcertService);
   private readonly authService = inject(AuthService);
 
   private readonly dialogRef = inject(MatDialogRef<CreateConcertDialog>);
-  readonly genres = signal<String[]>([]);
-
-  public constructor() {
-    this.loadGenres()
-  }
 
   form: FormGroup = new FormGroup(
     {
@@ -31,35 +26,20 @@ export class CreateConcertDialog {
       artiste : new FormControl(''),
       ville : new FormControl(''),
       lieu : new FormControl(''),
-      genre : new FormControl(this.genres),
+      genre : new FormControl<GenreEnum |''>(''),
       prix : new FormControl(''),
       description : new FormControl(''),
       date : new FormControl(''),
       capacite : new FormControl(''),
     }
   )
-  titre = '';
-  artiste = '';
-  ville = '';
-  lieu = '';
-  genre = '';
-  prix = 0;
-  description ='';
-  dateTime = new Date();
-  capacite = 0;
-
-  protected loadGenres(): void {
-    this.concertService.getAll().subscribe({
-      next: concerts => {
-        const genres = [...new Set(concerts.map(concert => concert.genre))];
-        this.genres.set(genres);
-      },
-      error: err => console.error('Error loading genres:', err),
-    });
-  }
 
   public onSubmit(): void {
     const organisateurId = this.authService.getCurrentUserId();
+
+    console.log('SAVE CLICKED');
+    console.log('form valid:', this.form.valid);
+    console.log('form value:', this.form.value);
 
     if (!organisateurId) {
       console.error('No organisateur id found');
@@ -68,17 +48,24 @@ export class CreateConcertDialog {
 
     const formData = this.form.value;
 
+    if (this.form.invalid) {
+      console.log('INVALID FORM', this.form.errors, this.form.controls);
+      return;
+    }
+
     this.concertService.createConcert({
-      id:organisateurId,
-      titre: this.titre,
-      artiste: this.artiste,
-      lieu: this.lieu,
-      ville: this.ville,
-      description: this.description,
-      date: this.dateTime.getDate().toString(),
-      prix: this.prix,
-      capacite: this.capacite,
-      genre: this.genre,
+      organisateurId:organisateurId,
+      titre: formData.titre,
+      artiste: formData.artiste,
+      lieu: formData.lieu,
+      ville: formData.ville,
+      description: formData.description,
+      dateTime: formData.date?.length === 16
+        ? formData.date + ':00'
+        : formData.date,
+      prix: formData.prix,
+      capacite: formData.capacite,
+      genre: formData.genre,
     }).subscribe({
 
       next: () => {

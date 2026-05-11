@@ -19,6 +19,7 @@ public class TestApplication extends Application {
             OpenApiResource.class,
             ConcertResource.class,
             TicketResource.class,
+            CommandeResource.class,
             ClientResource.class,
             AuthResource.class,
             ClientErrorExceptionMapper.class,

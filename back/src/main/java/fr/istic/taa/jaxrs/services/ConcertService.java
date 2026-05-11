@@ -35,12 +35,14 @@ public class ConcertService {
             EntityManagerHelper.beginTransaction();
 
             validateCreateDTO(dto);
+            var organisateur = organisateurDao.findOne(dto.getOrganisateurId());
 
-            if (organisateurDao.findOne(dto.getOrganisateurId()) == null) {
+            if (organisateur == null) {
                 throw new BadRequestException("Organisateur non trouvé");
             }
 
             Concert concert = new Concert();
+            concert.setOrganisateur(organisateur);
             concert.setLieu(dto.getLieu());
             concert.setDescription(dto.getDescription());
             concert.setCapacite(dto.getCapacite());

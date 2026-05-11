@@ -38,13 +38,13 @@ public class TicketService {
         return ticketDao.findAll();
     }
 
-    public List<Ticket> findByClient(Long clientId) {
-        Client client = clientDao.findOne(clientId);
-        if (client == null) {
-            throw new NotFoundException("Client non trouvé");
-        }
-        return ticketDao.findByClient(client);
-    }
+//    public List<Ticket> findByClient(Long clientId) {
+//        Client client = clientDao.findOne(clientId);
+//        if (client == null) {
+//            throw new NotFoundException("Client non trouvé");
+//        }
+//        return ticketDao.findByClient(client);
+//    }
 
     public long create(final TicketCreateDTO dto) throws ClientErrorException {
         try {

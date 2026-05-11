@@ -5,6 +5,7 @@ import {ConcertList} from './components/concert-list/concert-list';
 import {authenticatedGuard} from './libs/guards/authenticated-guard';
 import {authorizedGuard} from './libs/guards/authorized-guard';
 import {ManageConcerts} from './components/manage-concerts/manage-concerts';
+import {CartPageComponent} from './components/cart-page/cart-page';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,10 @@ export const routes: Routes = [
         component: ManageConcerts
       }
     ]
+  },
+  {
+    path: 'cart',
+    component: CartPageComponent
   },
   {
     path: '**',

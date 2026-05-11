@@ -41,13 +41,28 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
                 .getSingleResult();
     }
 
-    public List<Ticket> findByClient(Client client) {
-        return getEntityManager().createQuery(
-                        "select t from Ticket t where t.commande.client = :client",
-                        Ticket.class
-                )
-                .setParameter("client", client)
-                .getResultList();
+//    public List<Ticket> findByClient(Client client) {
+//        return getEntityManager().createQuery(
+//                        "select t from Ticket t where t.commande.client = :client",
+//                        Ticket.class
+//                )
+//                .setParameter("client", client)
+//                .getResultList();
+//    }
+
+    public Ticket findByIdAndClientId(Long ticketId, Long clientId) {
+        return getEntityManager()
+                .createQuery("""
+                SELECT t FROM Ticket t
+                JOIN t.commande c
+                WHERE t.id = :ticketId
+                AND c.client.id = :clientId
+            """, Ticket.class)
+                .setParameter("ticketId", ticketId)
+                .setParameter("clientId", clientId)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
     }
 
     public List<Ticket> findByConcert(Concert concert) {

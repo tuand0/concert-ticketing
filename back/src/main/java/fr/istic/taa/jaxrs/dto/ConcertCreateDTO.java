@@ -116,11 +116,11 @@ public class ConcertCreateDTO {
         this.prix = prix;
     }
 
-    public int getCapacite() {
+    public Integer getCapacite() {
         return capacite;
     }
 
-    public void setCapacite(int capacite) {
+    public void setCapacite(Integer capacite) {
         this.capacite = capacite;
     }
 

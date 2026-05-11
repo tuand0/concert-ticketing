@@ -11,6 +11,9 @@
         <span class="opacity-80">Hello, {{ authService.currentUser()?.email }}</span>
         <p-button (click)="authService.logout()" label="Logout" icon="pi pi-sign-out" severity="danger" />
       </div>
+      <nav>
+        <a routerLink="/cart" routerLinkActive="active">My Cart</a>
+      </nav>
     } @else {
       <nav>
         <a routerLink="/login" routerLinkActive="active">Login</a>

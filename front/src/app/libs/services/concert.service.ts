@@ -5,12 +5,13 @@ import {ConcertFilter, ConcertModel, PaginatedResponse} from '../models/concert.
 import {ConcertEntity} from '../entities/concert.entity';
 import { ConcertMapper} from '../mappers/concert.mapper';
 import { HttpParams } from '@angular/common/http';
+import {ConcertCreateEntity} from '../entities/concert-create.entity';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConcertService {
-  private readonly baseApiUrl = 'http://localhost:4200/api'
+  private readonly baseApiUrl = '/api'
 
   // Signals for state management
   private readonly loadingSignal = signal(false);
@@ -122,7 +123,7 @@ export class ConcertService {
   }
 
   public createConcert(
-    concert: Partial<ConcertModel>
+    concert: ConcertCreateEntity
   ): Observable<void> {
 
     return this.http.post<void>(

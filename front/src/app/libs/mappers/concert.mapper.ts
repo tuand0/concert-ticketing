@@ -8,7 +8,7 @@ export class ConcertMapper {
   public mapToModel(entity: ConcertEntity): ConcertModel {
     return {
       ...entity,
-      inStock: entity.inStock,
+      inStock: entity.capacite > 0,
       imageUrl: `https://placehold.co/300x300?text=${encodeURIComponent(entity.titre)}`
     };
   }

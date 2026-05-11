@@ -1,0 +1,78 @@
+<h2>My cart</h2>
+
+@if (loading) {
+<p>Loading...</p>
+} @else {
+
+<section>
+  <h3>Tickets to pay</h3>
+
+  @if (!hasPendingTickets()) {
+  <p>No ticket waiting for payment.</p>
+  } @else {
+  @for (commande of pendingCommandes; track commande.id) {
+  <div class="commande-block">
+    <h4>Order {{ commande.numeroCommande }}</h4>
+
+    @for (ticket of commande.tickets; track ticket.id) {
+    <div class="cart-item">
+      <h4>{{ ticket.concertTitre }}</h4>
+
+      <p>{{ ticket.concertArtiste }}</p>
+      <p>{{ ticket.concertVille }} - {{ ticket.concertLieu }}</p>
+      <p>{{ ticket.concertDate }}</p>
+      <p>Ticket: {{ ticket.numeroTicket }}</p>
+      <p>Status: {{ ticket.statut }}</p>
+      <p>{{ ticket.prix }} €</p>
+
+      <button type="button" (click)="removeTicket(ticket.id)">
+        Remove
+      </button>
+    </div>
+    }
+
+    <p>
+      <strong>Total: {{ commande.montantTotal }} €</strong>
+    </p>
+
+    <button type="button" (click)="confirmCart()">
+      Confirm order
+    </button>
+  </div>
+  }
+  }
+</section>
+
+<hr />
+
+<section>
+  <h3>Paid tickets</h3>
+
+  @if (!hasPaidTickets()) {
+  <p>No paid ticket yet.</p>
+  } @else {
+  @for (commande of paidCommandes; track commande.id) {
+  <div class="commande-block paid">
+    <p>Status: {{ commande.statut }}</p>
+    <p>Payment: {{ commande.modePaiement }}</p>
+
+    @for (ticket of commande.tickets; track ticket.id) {
+    <div class="cart-item">
+      <h4>{{ ticket.concertTitre }}</h4>
+
+      <p>{{ ticket.concertArtiste }}</p>
+      <p>{{ ticket.concertVille }} - {{ ticket.concertLieu }}</p>
+      <p>{{ ticket.concertDate }}</p>
+      <p>Status: {{ ticket.statut }}</p>
+      <p>{{ ticket.prix }} €</p>
+    </div>
+    }
+
+    <p>
+      <strong>Total paid: {{ commande.montantTotal }} €</strong>
+    </p>
+  </div>
+  }
+  }
+</section>
+}

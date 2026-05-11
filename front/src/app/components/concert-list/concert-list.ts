@@ -10,8 +10,6 @@ import {debounceTime, Subject} from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { CreateConcertCard } from '../create-concert-card/create-concert-card';
 import {AuthService} from '../../libs/services/auth.service';
-import { CreateConcertDialog } from '../create-concert-dialog/create-concert-dialog';
-import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   standalone: true,

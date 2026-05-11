@@ -3,6 +3,7 @@ package fr.istic.taa.jaxrs.dao;
 import fr.istic.taa.jaxrs.dao.generic.AbstractJpaDao;
 import fr.istic.taa.jaxrs.domain.Client;
 import fr.istic.taa.jaxrs.domain.Commande;
+import fr.istic.taa.jaxrs.domain.enums.StatutCommandeEnum;
 
 import java.util.List;
 
@@ -12,12 +13,32 @@ public class CommandeDao extends AbstractJpaDao<Long, Commande> {
         super(Commande.class);
     }
 
-    public List<Commande> findByClient(Client client) {
-        return getEntityManager().createQuery(
-                        "select c from Commande c where c.client = :client",
-                        Commande.class
-                )
-                .setParameter("client", client)
+    public List<Commande> findByClientId(Long clientId) {
+        return getEntityManager()
+                .createQuery("""
+                SELECT DISTINCT c FROM Commande c
+                LEFT JOIN FETCH c.tickets t
+                LEFT JOIN FETCH t.concert
+                WHERE c.client.id = :clientId
+                ORDER BY c.dateCommande DESC
+            """, Commande.class)
+                .setParameter("clientId", clientId)
                 .getResultList();
+    }
+
+    public Commande findPendingByClientId(Long clientId) {
+        return getEntityManager()
+                .createQuery("""
+                SELECT c FROM Commande c
+                LEFT JOIN FETCH c.tickets t
+                LEFT JOIN FETCH t.concert
+                WHERE c.client.id = :clientId
+                AND c.statut = :statut
+            """, Commande.class)
+                .setParameter("clientId", clientId)
+                .setParameter("statut", StatutCommandeEnum.EN_ATTENTE)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
     }
 }

@@ -1,88 +1,117 @@
+/* Container styling */
 .dialog-container {
-  padding: 32px;
-  background: white;
-  border-radius: 24px;
-  max-width: 720px;
+  max-width: 600px;
+  margin: 2rem auto;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 .dialog-title {
-  margin: 0 0 24px;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1f2937;
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 12px;
 }
 
+/* Form Layout: Grid for 2-column look */
 .dialog-form {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .form-group {
   display: flex;
-  flex-direction: row;
-  gap: 8px;
+  flex-direction: column;
+  flex: 1 1 calc(50% - 16px); /* Two columns */
+  min-width: 200px;
 }
 
-.full-width {
-  grid-column: 1 / -1;
+/* Full width for Description */
+.form-group.full-width {
+  flex: 1 1 100%;
 }
 
+/* Labels */
 .form-group label {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
+  color: #4a5568;
+  margin-bottom: 6px;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 12px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 14px;
-  font-size: 15px;
-  background: white;
+/* Inputs, Select, and Textarea */
+input[type="text"],
+input[type="number"],
+input[type="datetime-local"],
+select,
+textarea {
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: #f8fafc;
 }
 
-.form-group textarea {
-  min-height: 110px;
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+textarea {
+  min-height: 100px;
   resize: vertical;
 }
 
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: #ff7a3d;
-  box-shadow: 0 0 0 4px rgba(255, 122, 61, 0.16);
-}
-
+/* Buttons Container */
 .dialog-actions {
-  grid-column: 1 / -1;
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 12px;
+  width: 100%;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
 }
 
-.btn-cancel,
-.btn-save {
-  padding: 12px 22px;
-  border: none;
-  border-radius: 14px;
-  font-weight: 700;
+/* Button Base Styles */
+button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
+  transition: transform 0.1s, background-color 0.2s;
+  border: none;
+}
+
+button:active {
+  transform: scale(0.98);
 }
 
 .btn-cancel {
-  background: #f3f4f6;
-  color: #374151;
+  background-color: #edf2f7;
+  color: #4a5568;
+}
+
+.btn-cancel:hover {
+  background-color: #e2e8f0;
 }
 
 .btn-save {
-  background: #ff7a3d;
+  background-color: #3b82f6;
   color: white;
+}
+
+.btn-save:hover {
+  background-color: #2563eb;
 }

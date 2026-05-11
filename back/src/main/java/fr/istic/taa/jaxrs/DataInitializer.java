@@ -166,7 +166,7 @@ public class DataInitializer {
         concert.setGenre(genre);
         concert.setPrix(BigDecimal.valueOf(prix));
         concert.setCapacite(capacite);
-        concert.setStatut(StatutConcertEnum.PUBLIE);
+        concert.setStatut(StatutConcertEnum.BROUILLON);
         return concert;
     }
 

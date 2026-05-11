@@ -39,11 +39,8 @@
 
         <div class="concert-actions">
           @if (concert()!.inStock) {
-            <button class="btn-primary" (click)="addToCart()">
+            <button class="btn-primary" (click)="addToCart(concert()!.id)">
               Add to Cart
-            </button>
-            <button class="btn-secondary" (click)="addToWishlist()">
-              Add to Wishlist
             </button>
           } @else {
             <button class="btn-disabled" disabled>
