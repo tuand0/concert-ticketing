@@ -15,10 +15,6 @@ public class Client extends Utilisateur implements Serializable {
     @OneToMany(mappedBy = "client")
     @JsonIgnore
     private List<Commande> commandes = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private List<Ticket> tickets = new ArrayList<>();
 
     @Transient
     @Override
@@ -37,12 +33,5 @@ public class Client extends Utilisateur implements Serializable {
     public void setCommandes(List<Commande> commandes) {
         this.commandes = commandes;
     }
-//
-//    public List<Ticket> getTickets() {
-//        return tickets;
-//    }
-//
-//    public void setTickets(List<Ticket> tickets) {
-//        this.tickets = tickets;
-//    }
+
 }

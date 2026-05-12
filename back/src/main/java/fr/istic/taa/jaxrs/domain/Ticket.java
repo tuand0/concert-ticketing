@@ -19,8 +19,6 @@ public class Ticket implements Serializable {
 
     private BigDecimal prix;
 
-    private String numeroPlace;
-
     @Enumerated(EnumType.STRING)
     private StatutTicketEnum statut;
 
@@ -33,14 +31,6 @@ public class Ticket implements Serializable {
     private Concert concert;
 
     public Ticket() {
-    }
-
-    public String getNumeroPlace() {
-        return numeroPlace;
-    }
-
-    public void setNumeroPlace(String numeroPlace) {
-        this.numeroPlace = numeroPlace;
     }
 
     public void annuler() {

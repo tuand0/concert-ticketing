@@ -38,14 +38,6 @@ public class TicketService {
         return ticketDao.findAll();
     }
 
-//    public List<Ticket> findByClient(Long clientId) {
-//        Client client = clientDao.findOne(clientId);
-//        if (client == null) {
-//            throw new NotFoundException("Client non trouvé");
-//        }
-//        return ticketDao.findByClient(client);
-//    }
-
     public long create(final TicketCreateDTO dto) throws ClientErrorException {
         try {
             EntityManagerHelper.beginTransaction();
@@ -70,7 +62,7 @@ public class TicketService {
             Commande commande = buildCommande(client, dto.getModePaiement());
             commandeDao.save(commande);
 
-            Ticket ticket = buildTicket(concert, commande, dto.getNumeroPlace());
+            Ticket ticket = buildTicket(concert, commande);
             ticketDao.save(ticket);
 
             commande.getTickets().add(ticket);
@@ -134,7 +126,7 @@ public class TicketService {
             throw new ConflictException("Le concert est complet");
         }
 
-        if (ticketDao.existsByConcertAndPlace(numeroPlace, concert)) {
+        if (ticketDao.existsByConcert(numeroPlace, concert)) {
             throw new ConflictException("La place " + numeroPlace + " n'est plus disponible");
         }
     }
@@ -148,11 +140,10 @@ public class TicketService {
         return commande;
     }
 
-    private Ticket buildTicket(Concert concert, Commande commande, String numeroPlace) {
+    private Ticket buildTicket(Concert concert, Commande commande) {
         Ticket ticket = new Ticket();
         ticket.setConcert(concert);
         ticket.setCommande(commande);
-        ticket.setNumeroPlace(numeroPlace.trim());
         ticket.setDateAchat(LocalDateTime.now());
         ticket.setPrix(concert.getPrix());
         ticket.setStatut(StatutTicketEnum.ACTIF);

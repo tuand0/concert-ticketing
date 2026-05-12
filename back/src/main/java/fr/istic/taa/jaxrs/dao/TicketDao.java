@@ -1,7 +1,6 @@
 package fr.istic.taa.jaxrs.dao;
 
 import fr.istic.taa.jaxrs.dao.generic.AbstractJpaDao;
-import fr.istic.taa.jaxrs.domain.Client;
 import fr.istic.taa.jaxrs.domain.Concert;
 import fr.istic.taa.jaxrs.domain.Ticket;
 
@@ -12,23 +11,13 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
         super(Ticket.class);
     }
 
-//    public boolean existsByConcertAndPlace(String place, Concert concert) {
-//        return getEntityManager()
-//                .createNamedQuery("Ticket.existsByPlaceAndConcert", Boolean.class)
-//                .setParameter("place", place)
-//                .setParameter("concert", concert)
-//                .getSingleResult();
-//    }
-
-    public boolean existsByConcertAndPlace(String place, Concert concert) {
+    public boolean existsByConcert(Concert concert) {
         Long count = getEntityManager()
                 .createQuery("""
                 select count(t)
                 from Ticket t
-                where t.numeroPlace = :place
-                and t.concert = :concert
+                where t.concert = :concert
             """, Long.class)
-                .setParameter("place", place)
                 .setParameter("concert", concert)
                 .getSingleResult();
 
@@ -40,15 +29,6 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
                 .setParameter("concert", concert)
                 .getSingleResult();
     }
-
-//    public List<Ticket> findByClient(Client client) {
-//        return getEntityManager().createQuery(
-//                        "select t from Ticket t where t.commande.client = :client",
-//                        Ticket.class
-//                )
-//                .setParameter("client", client)
-//                .getResultList();
-//    }
 
     public Ticket findByIdAndClientId(Long ticketId, Long clientId) {
         return getEntityManager()
