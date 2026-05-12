@@ -131,4 +131,24 @@ export class ConcertService {
       concert
     );
   }
+
+  public getDraftConcerts(): Observable<ConcertModel[]> {
+    return this.http.get<ConcertEntity[]>(
+      `${this.baseApiUrl}/concerts/brouillons`
+    ).pipe(
+      map(entities => entities.map(entity => this.concertMapper.mapToModel(entity)))
+    );
+  }
+
+  public updateConcertStatut(
+    concertId: number,
+    statut: 'PUBLIE' | 'ANNULE'
+  ): Observable<ConcertModel> {
+    return this.http.patch<ConcertEntity>(
+      `${this.baseApiUrl}/concerts/${concertId}/statut?statut=${statut}`,
+      {}
+    ).pipe(
+      map(entity => this.concertMapper.mapToModel(entity))
+    );
+  }
 }

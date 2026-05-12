@@ -1,0 +1,61 @@
+<div class="admin-concerts-page">
+  <header class="page-header">
+    <div>
+      <h2>Concerts waiting for validation</h2>
+      <p>Review draft concerts and publish or cancel them.</p>
+    </div>
+  </header>
+
+  @if (loading) {
+  <p class="status-message">Loading...</p>
+  } @else if (errorMessage) {
+  <p class="error-message">{{ errorMessage }}</p>
+  } @else if (draftConcerts.length === 0) {
+  <p class="status-message">No draft concert.</p>
+  } @else {
+  <div class="admin-concert-list">
+    @for (concert of draftConcerts; track concert.id) {
+    <article class="admin-concert-card">
+      <div class="concert-main">
+        <h3>{{ concert.titre }}</h3>
+        <p class="artist">{{ concert.artiste }}</p>
+
+        <div class="meta">
+          <span>{{ concert.ville }} - {{ concert.lieu }}</span>
+          <span>{{ concert.date }}</span>
+          <span>{{ concert.genre }}</span>
+        </div>
+
+        <p class="description">
+          {{ concert.description }}
+        </p>
+      </div>
+
+      <div class="concert-side">
+        <p class="price">{{ concert.prix }} €</p>
+        <p class="capacity">Capacity: {{ concert.capacite }}</p>
+        <p class="status">Status: {{ concert.statut }}</p>
+
+        <div class="actions">
+          <button
+            type="button"
+            class="btn-publish"
+            (click)="publishConcert(concert.id)"
+          >
+            Publish
+          </button>
+
+          <button
+            type="button"
+            class="btn-cancel"
+            (click)="cancelConcert(concert.id)"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </article>
+    }
+  </div>
+  }
+</div>

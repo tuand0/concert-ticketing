@@ -19,7 +19,7 @@ public class ConcertService {
     private final OrganisateurDao organisateurDao = new OrganisateurDao();
 
     public List<Concert> searchConcerts(ConcertSearchDTO searchDTO) {
-        return concertDao.searchConcerts(searchDTO);
+        return concertDao.searchPublishedConcerts(searchDTO);
     }
 
     public Concert findOne(Long id) {
@@ -110,6 +110,80 @@ public class ConcertService {
 
         if (dto.getGenre() == null || dto.getGenre().isBlank()) {
             throw new BadRequestException("Le genre est obligatoire");
+        }
+    }
+
+    public List<Concert> findByStatut(StatutConcertEnum statut) {
+        try {
+            EntityManagerHelper.beginTransaction();
+
+            List<Concert> concerts = concertDao.findByStatut(statut);
+
+            EntityManagerHelper.commit();
+            return concerts;
+
+        } catch (RuntimeException e) {
+            EntityManagerHelper.rollback();
+            throw e;
+        } finally {
+            EntityManagerHelper.closeEntityManager();
+        }
+    }
+
+    public Concert updateStatut(Long concertId, String statutValue) {
+        try {
+            EntityManagerHelper.beginTransaction();
+
+            Concert concert = concertDao.findOne(concertId);
+
+            if (concert == null) {
+                throw new NotFoundException("Concert non trouvé");
+            }
+
+            StatutConcertEnum statut;
+
+            try {
+                statut = StatutConcertEnum.valueOf(statutValue.trim().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new BadRequestException("Statut invalide");
+            }
+
+            if (statut != StatutConcertEnum.PUBLIE && statut != StatutConcertEnum.ANNULE) {
+                throw new BadRequestException("Statut autorisé: PUBLIE ou ANNULE");
+            }
+
+            concert.setStatut(statut);
+
+            EntityManagerHelper.commit();
+            return concert;
+
+        } catch (RuntimeException e) {
+            EntityManagerHelper.rollback();
+            throw e;
+        } finally {
+            EntityManagerHelper.closeEntityManager();
+        }
+    }
+
+    public void deleteConcert(Long concertId) {
+        try {
+            EntityManagerHelper.beginTransaction();
+
+            Concert concert = concertDao.findOne(concertId);
+
+            if (concert == null) {
+                throw new NotFoundException("Concert non trouvé");
+            }
+
+            concertDao.delete(concert);
+
+            EntityManagerHelper.commit();
+
+        } catch (RuntimeException e) {
+            EntityManagerHelper.rollback();
+            throw e;
+        } finally {
+            EntityManagerHelper.closeEntityManager();
         }
     }
 

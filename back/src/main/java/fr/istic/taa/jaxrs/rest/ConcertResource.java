@@ -1,6 +1,7 @@
 package fr.istic.taa.jaxrs.rest;
 
 import fr.istic.taa.jaxrs.domain.Concert;
+import fr.istic.taa.jaxrs.domain.enums.StatutConcertEnum;
 import fr.istic.taa.jaxrs.dto.ConcertCreateDTO;
 import fr.istic.taa.jaxrs.dto.ConcertSearchDTO;
 import fr.istic.taa.jaxrs.services.ConcertService;
@@ -30,7 +31,7 @@ import java.util.List;
 @Tag(name = "Concerts", description = "Gestion des concerts musicaux")
 public class ConcertResource {
 
-    private final ConcertService service = new ConcertService();
+    private final ConcertService concertService = new ConcertService();
 
     @GET
     @Path("/{id}")
@@ -47,13 +48,13 @@ public class ConcertResource {
     public Concert getConcertById(
             @Parameter(description = "Identifiant unique du concert", required = true)
             @PathParam("id") Long id) {
-        return service.findOne(id);
+        return concertService.findOne(id);
     }
 
     @GET
-    @Path("/")
+    @Path("/publie")
     @Operation(
-            summary = "Rechercher des concerts",
+            summary = "Rechercher des concerts deja publiés",
             description = "Retourne la liste des concerts correspondant aux critères de recherche fournis en paramètres de requête"
     )
     @Parameter(name = "titre", description = "Titre du concert", in = ParameterIn.QUERY)
@@ -73,7 +74,15 @@ public class ConcertResource {
     )
     public List<Concert> findConcerts(@Parameter(hidden = true) @Context UriInfo info) {
         ConcertSearchDTO searchDTO = new ConcertSearchDTO(info.getQueryParameters());
-        return service.searchConcerts(searchDTO);
+        return concertService.searchConcerts(searchDTO);
+    }
+
+    @GET
+    @Path("/brouillons")
+    public Response getDraftConcerts() {
+        return Response.ok(
+                concertService.findByStatut(StatutConcertEnum.BROUILLON)
+        ).build();
     }
 
     @POST
@@ -92,8 +101,26 @@ public class ConcertResource {
                     required = true,
                     content = @Content(schema = @Schema(implementation = ConcertCreateDTO.class))
             ) final @Valid ConcertCreateDTO concert) throws URISyntaxException {
-        long id = service.create(concert);
+        long id = concertService.create(concert);
         URI uri = new URI("/concerts/" + id);
         return Response.created(uri).build();
+    }
+
+    @PATCH
+    @Path("/{concertId}/statut")
+    public Response updateConcertStatut(
+            @PathParam("concertId") Long concertId,
+            @QueryParam("statut") String statut
+    ) {
+        return Response.ok(
+                concertService.updateStatut(concertId, statut)
+        ).build();
+    }
+
+    @DELETE
+    @Path("/{concertId}")
+    public Response deleteConcert(@PathParam("concertId") Long concertId) {
+        concertService.deleteConcert(concertId);
+        return Response.noContent().build();
     }
 }
