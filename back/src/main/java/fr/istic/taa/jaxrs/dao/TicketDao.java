@@ -12,24 +12,14 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
         super(Ticket.class);
     }
 
-//    public boolean existsByConcertAndPlace(String place, Concert concert) {
-//        return getEntityManager()
-//                .createNamedQuery("Ticket.existsByPlaceAndConcert", Boolean.class)
-//                .setParameter("place", place)
-//                .setParameter("concert", concert)
-//                .getSingleResult();
-//    }
-
-    public boolean existsByConcertAndPlace(String place, Concert concert) {
+    public boolean existsByConcertId(Long concertId) {
         Long count = getEntityManager()
                 .createQuery("""
-                select count(t)
-                from Ticket t
-                where t.numeroPlace = :place
-                and t.concert = :concert
+                SELECT COUNT(t)
+                FROM Ticket t
+                WHERE t.concert.id = :concertId
             """, Long.class)
-                .setParameter("place", place)
-                .setParameter("concert", concert)
+                .setParameter("concertId", concertId)
                 .getSingleResult();
 
         return count > 0;
@@ -40,15 +30,6 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
                 .setParameter("concert", concert)
                 .getSingleResult();
     }
-
-//    public List<Ticket> findByClient(Client client) {
-//        return getEntityManager().createQuery(
-//                        "select t from Ticket t where t.commande.client = :client",
-//                        Ticket.class
-//                )
-//                .setParameter("client", client)
-//                .getResultList();
-//    }
 
     public Ticket findByIdAndClientId(Long ticketId, Long clientId) {
         return getEntityManager()
@@ -65,21 +46,35 @@ public class TicketDao extends AbstractJpaDao<Long, Ticket> {
                 .orElse(null);
     }
 
-    public List<Ticket> findByConcert(Concert concert) {
-        return getEntityManager().createQuery(
-                        "select t from Ticket t where t.concert = :concert",
+    public List<Ticket> findByConcertId(Long concertId) {
+        return getEntityManager().createQuery("""
+                                SELECT t
+                                FROM Ticket t
+                                WHERE t.concert.id = :concertId""",
                         Ticket.class
                 )
-                .setParameter("concert", concert)
+                .setParameter("concertId", concertId)
                 .getResultList();
     }
 
-    public List<Ticket> findByCommandeId(Long commandeId) {
-        return getEntityManager().createQuery(
-                        "select t from Ticket t where t.commande.id = :commandeId",
-                        Ticket.class
-                )
-                .setParameter("commandeId", commandeId)
+    public List<Client> findClientsByConcertId(Long concertId) {
+        return getEntityManager()
+                .createQuery("""
+                SELECT DISTINCT c.client
+                FROM Ticket t
+                JOIN t.commande c
+                WHERE t.concert.id = :concertId
+            """, Client.class)
+                .setParameter("concertId", concertId)
                 .getResultList();
     }
+
+//    public List<Ticket> findByCommandeId(Long commandeId) {
+//        return getEntityManager().createQuery(
+//                        "select t from Ticket t where t.commande.id = :commandeId",
+//                        Ticket.class
+//                )
+//                .setParameter("commandeId", commandeId)
+//                .getResultList();
+//    }
 }

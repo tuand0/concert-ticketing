@@ -3,12 +3,13 @@ package fr.istic.taa.jaxrs.domain;
 import fr.istic.taa.jaxrs.domain.enums.TypeNotificationEnum;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Notification {
+public class Notification implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

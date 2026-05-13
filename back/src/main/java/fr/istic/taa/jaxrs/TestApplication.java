@@ -22,6 +22,7 @@ public class TestApplication extends Application {
             CommandeResource.class,
             ClientResource.class,
             AuthResource.class,
+            NotificationResource.class,
             ClientErrorExceptionMapper.class,
             ConstraintViolationExceptionMapper.class,
             MyObjectMapperProvider.class,

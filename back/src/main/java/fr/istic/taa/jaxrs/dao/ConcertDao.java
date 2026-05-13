@@ -15,7 +15,27 @@ public class ConcertDao extends AbstractJpaDao<Long, Concert> {
         super(Concert.class);
     }
 
-    public List<Concert> searchConcerts(ConcertSearchDTO searchDTO) {
+//    public List<Concert> findByStatut(StatutConcertEnum statut) {
+//        var cb = getEntityManager().getCriteriaBuilder();
+//        var cr = cb.createQuery(Concert.class);
+//        var root = cr.from(Concert.class);
+//
+//        cr.select(root)
+//                .where(cb.equal(root.get("statut"), statut))
+//                .orderBy(cb.asc(root.get("date")));
+//
+//        return getEntityManager().createQuery(cr).getResultList();
+//    }
+
+    public void delete(Concert concert) {
+        getEntityManager().remove(
+                getEntityManager().contains(concert)
+                        ? concert
+                        : getEntityManager().merge(concert)
+        );
+    }
+
+    public List<Concert> searchConcerts(ConcertSearchDTO searchDTO,StatutConcertEnum statut){
         var cb = getEntityManager().getCriteriaBuilder();
         var cr = cb.createQuery(Concert.class);
         var root = cr.from(Concert.class);
@@ -23,6 +43,10 @@ public class ConcertDao extends AbstractJpaDao<Long, Concert> {
         cr.select(root);
 
         List<Predicate> predicates = new ArrayList<>();
+
+        if (statut != null) {
+            predicates.add(cb.equal(root.get("statut"), statut));
+        }
 
         if (searchDTO.getTitre() != null && !searchDTO.getTitre().isEmpty()) {
             predicates.add(
@@ -69,15 +93,6 @@ public class ConcertDao extends AbstractJpaDao<Long, Concert> {
             }
         }
 
-        if (searchDTO.getStatut() != null && !searchDTO.getStatut().isEmpty()) {
-            try {
-                StatutConcertEnum statut = StatutConcertEnum.valueOf(searchDTO.getStatut().toUpperCase());
-                predicates.add(cb.equal(root.get("statut"), statut));
-            } catch (IllegalArgumentException e) {
-                // valeur invalide -> on ignore le filtre
-            }
-        }
-
         if (searchDTO.getDateMin() != null) {
             predicates.add(
                     cb.greaterThanOrEqualTo(root.get("date"), searchDTO.getDateMin())
@@ -102,8 +117,25 @@ public class ConcertDao extends AbstractJpaDao<Long, Concert> {
             );
         }
 
-        var query = cr.where(predicates.toArray(new Predicate[0]));
+        cr.where(predicates.toArray(new Predicate[0]));
+        cr.orderBy(cb.asc(root.get("date")));
 
-        return getEntityManager().createQuery(query).getResultList();
+        return getEntityManager().createQuery(cr).getResultList();
+    }
+
+    public List<Concert> searchPublishedConcerts(ConcertSearchDTO searchDTO) {
+        return searchConcerts(searchDTO, StatutConcertEnum.PUBLIE);
+    }
+
+    public List<Concert> searchDraftConcerts(ConcertSearchDTO searchDTO) {
+        return searchConcerts(searchDTO, StatutConcertEnum.BROUILLON);
+    }
+
+    public List<Concert> searchDeletedConcerts(ConcertSearchDTO searchDTO) {
+        return searchConcerts(searchDTO, StatutConcertEnum.ANNULE);
+    }
+
+    public List<Concert> searchAllConcerts(ConcertSearchDTO searchDTO) {
+        return searchConcerts(searchDTO, null);
     }
 }

@@ -1,0 +1,98 @@
+<div class="admin-concerts-page">
+  <header class="page-header">
+    <div>
+      <h2>Concert management</h2>
+      <p>Manage published, draft and cancelled concerts.</p>
+    </div>
+  </header>
+
+  @if (loading) {
+    <p class="status-message">Loading...</p>
+  } @else {
+  <section>
+    <h3>Published concerts</h3>
+
+    @if (publishedConcerts.length === 0) {
+    <p>No published concert.</p>
+    } @else {
+    @for (concert of publishedConcerts; track concert.id) {
+    <article class="admin-concert-card published">
+      <div>
+        <h4>{{ concert.titre }}</h4>
+        <p>{{ concert.artiste }}</p>
+        <p>{{ concert.ville }} - {{ concert.lieu }}</p>
+        <p>{{ concert.date }}</p>
+        <p>{{ concert.prix }} €</p>
+      </div>
+
+      <button
+        type="button"
+        class="btn-delete"
+        (click)="deleteConcert(concert.id)"
+      >
+        Delete
+      </button>
+    </article>
+    }
+    }
+  </section>
+
+  <section>
+    <h3>Draft concerts</h3>
+
+    @if (draftConcerts.length === 0) {
+    <p>No draft concert.</p>
+    } @else {
+    @for (concert of draftConcerts; track concert.id) {
+    <article class="admin-concert-card draft">
+      <div>
+        <h4>{{ concert.titre }}</h4>
+        <p>{{ concert.artiste }}</p>
+        <p>{{ concert.ville }} - {{ concert.lieu }}</p>
+        <p>{{ concert.date }}</p>
+        <p>{{ concert.prix }} €</p>
+      </div>
+
+      <div class="actions">
+        <button
+          type="button"
+          class="btn-publish"
+          (click)="publishConcert(concert.id)"
+        >
+          Confirm
+        </button>
+
+        <button
+          type="button"
+          class="btn-cancel"
+          (click)="cancelConcert(concert.id)"
+        >
+          Annuler
+        </button>
+      </div>
+    </article>
+    }
+    }
+  </section>
+
+  <section>
+    <h3>Cancelled concerts</h3>
+
+    @if (cancelledConcerts.length === 0) {
+    <p>No cancelled concert.</p>
+    } @else {
+    @for (concert of cancelledConcerts; track concert.id) {
+    <article class="admin-concert-card cancelled">
+      <div>
+        <h4>{{ concert.titre }}</h4>
+        <p>{{ concert.artiste }}</p>
+        <p>{{ concert.ville }} - {{ concert.lieu }}</p>
+        <p>{{ concert.date }}</p>
+        <p>{{ concert.prix }} €</p>
+      </div>
+    </article>
+    }
+    }
+  </section>
+  }
+</div>

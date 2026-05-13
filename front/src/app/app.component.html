@@ -12,9 +12,16 @@
     </nav>
 
     @if (authService.isLoggedIn()) {
-      <nav>
-        <a routerLink="/cart" routerLinkActive="active">My Cart</a>
-      </nav>
+      @if (!authService.isAdmin() && !authService.isOrganisateur()) {
+        <nav>
+          <a routerLink="/cart" routerLinkActive="active">My Cart</a>
+        </nav>
+      } @else if (authService.isAdmin()) {
+        <nav>
+          <a routerLink="/admin/concerts" routerLinkActive="active">Manage Concerts</a>
+          </nav>
+      }
+      <p-button label="Notification" icon="pi pi-envelope" (click)="openNotifications()" [raised]="true"/>
       <p-button (click)="authService.logout()" label="Logout" icon="pi pi-sign-out" severity="danger" />
     } @else {
       <nav>

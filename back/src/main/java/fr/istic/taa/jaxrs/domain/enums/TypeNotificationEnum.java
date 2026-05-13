@@ -1,9 +1,10 @@
 package fr.istic.taa.jaxrs.domain.enums;
 
 public enum TypeNotificationEnum {
-    NOUVEAU_CONCERT,
+    NEW_DRAFT_CONCERT,
+    NEW_PUBLISHED_CONCERT,
     RAPPEL,
+    CONFIRMATION,
     ANNULATION,
-    MODIFICATION,
-    OFFRE_SPECIALE
+    MODIFICATION
 }

@@ -39,6 +39,9 @@ public class ConcertSearchDTO {
     @Schema(description = "Prix maximum", example = "100")
     private BigDecimal prixMax;
 
+    public ConcertSearchDTO() {
+    }
+
     public ConcertSearchDTO(MultivaluedMap<String, String> queryParameters) {
 
         this.titre = queryParameters.getFirst("titre");

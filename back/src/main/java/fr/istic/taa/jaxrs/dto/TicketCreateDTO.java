@@ -15,10 +15,6 @@ public class TicketCreateDTO {
     @NotNull
     private Long concertId;
 
-    @Schema(description = "Numéro de place", requiredMode = Schema.RequiredMode.REQUIRED, example = "A12")
-    @NotBlank
-    private String numeroPlace;
-
     @Schema(description = "Mode de paiement", example = "CARTE_BANCAIRE")
     private String modePaiement;
 
@@ -36,14 +32,6 @@ public class TicketCreateDTO {
 
     public void setConcertId(Long concertId) {
         this.concertId = concertId;
-    }
-
-    public String getNumeroPlace() {
-        return numeroPlace;
-    }
-
-    public void setNumeroPlace(String numeroPlace) {
-        this.numeroPlace = numeroPlace;
     }
 
     public String getModePaiement() {

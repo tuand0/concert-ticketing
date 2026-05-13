@@ -1,11 +1,13 @@
 package fr.istic.taa.jaxrs.services;
 
-import fr.istic.taa.jaxrs.dao.ConcertDao;
-import fr.istic.taa.jaxrs.dao.OrganisateurDao;
+import fr.istic.taa.jaxrs.dao.*;
 import fr.istic.taa.jaxrs.dao.generic.EntityManagerHelper;
+import fr.istic.taa.jaxrs.domain.Client;
 import fr.istic.taa.jaxrs.domain.Concert;
+import fr.istic.taa.jaxrs.domain.Ticket;
 import fr.istic.taa.jaxrs.domain.enums.GenreEnum;
 import fr.istic.taa.jaxrs.domain.enums.StatutConcertEnum;
+import fr.istic.taa.jaxrs.domain.enums.StatutTicketEnum;
 import fr.istic.taa.jaxrs.dto.ConcertCreateDTO;
 import fr.istic.taa.jaxrs.dto.ConcertSearchDTO;
 import jakarta.ws.rs.NotFoundException;
@@ -17,12 +19,28 @@ import java.util.List;
 public class ConcertService {
     private final ConcertDao concertDao = new ConcertDao();
     private final OrganisateurDao organisateurDao = new OrganisateurDao();
+    private final TicketDao ticketDao = new TicketDao();
+    private final ClientDao clientDao = new ClientDao();
+    private final NotificationService notificationService = new NotificationService();
+    private final AdministrateurDao administrateurDao = new AdministrateurDao();
 
-    public List<Concert> searchConcerts(ConcertSearchDTO searchDTO) {
-        return concertDao.searchConcerts(searchDTO);
+    public List<Concert> searchAllConcerts(ConcertSearchDTO searchDTO) {
+        return concertDao.searchAllConcerts(searchDTO);
     }
 
-    public Concert findOne(Long id) {
+    public List<Concert> searchPublishedConcerts(ConcertSearchDTO searchDTO) {
+        return concertDao.searchPublishedConcerts(searchDTO);
+    }
+
+    public List<Concert> searchDraftConcerts(ConcertSearchDTO searchDTO) {
+        return concertDao.searchDraftConcerts(searchDTO);
+    }
+
+    public List<Concert> searchDeletedConcerts(ConcertSearchDTO searchDTO) {
+        return concertDao.searchDeletedConcerts(searchDTO);
+    }
+
+    public Concert findOneById(Long id) {
         Concert concert = concertDao.findOne(id);
         if (concert == null) {
             throw new NotFoundException("Concert non trouvé");
@@ -55,6 +73,11 @@ public class ConcertService {
             concert.setStatut(StatutConcertEnum.BROUILLON);
 
             concertDao.save(concert);
+
+            notificationService.notifyAdminsNewDraftConcert(
+                    administrateurDao.findAllActive(),
+                    concert
+            );
 
             EntityManagerHelper.commit();
             return concert.getId();
@@ -110,6 +133,116 @@ public class ConcertService {
 
         if (dto.getGenre() == null || dto.getGenre().isBlank()) {
             throw new BadRequestException("Le genre est obligatoire");
+        }
+    }
+
+
+    public Concert updateStatut(Long concertId, String statutValue) {
+        try {
+            EntityManagerHelper.beginTransaction();
+
+            Concert concert = concertDao.findOne(concertId);
+
+            if (concert == null) {
+                throw new NotFoundException("Concert non trouvé");
+            }
+
+            StatutConcertEnum statut;
+
+            try {
+                statut = StatutConcertEnum.valueOf(statutValue.trim().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new BadRequestException("Statut invalide");
+            }
+
+            if (statut != StatutConcertEnum.PUBLIE && statut != StatutConcertEnum.ANNULE) {
+                throw new BadRequestException("Statut autorisé: PUBLIE ou ANNULE");
+            }
+
+            concert.setStatut(statut);
+
+            if (statut == StatutConcertEnum.ANNULE) {
+                notificationService.notifyOrganisateurConcertCancelled(
+                        concert.getOrganisateur(),
+                        concert
+                );
+                
+                List<Ticket> tickets = ticketDao.findByConcertId(concertId);
+
+                for (Ticket ticket : tickets) {
+                    ticket.setStatut(StatutTicketEnum.ANNULE);
+                }
+
+                List<Client> clients = ticketDao.findClientsByConcertId(concertId);
+
+                notificationService.notifyClientsConcertCancelled(
+                        clients,
+                        concert
+                );
+            } else {
+                notificationService.notifyOrganisateurConcertConfirmed(
+                        concert.getOrganisateur(),
+                        concert
+                );
+
+                notificationService.notifyClientsNewPublishedConcert(
+                        clientDao.findAll(),
+                        concert
+                );
+            }
+
+            EntityManagerHelper.commit();
+            return concert;
+
+        } catch (RuntimeException e) {
+            EntityManagerHelper.rollback();
+            throw e;
+        } finally {
+            EntityManagerHelper.closeEntityManager();
+        }
+    }
+
+    public void deleteConcert(Long concertId) {
+        try {
+            EntityManagerHelper.beginTransaction();
+
+            Concert concert = concertDao.findOne(concertId);
+
+            if (concert == null) {
+                throw new NotFoundException("Concert non trouvé");
+            }
+
+            List<Ticket> tickets = ticketDao.findByConcertId(concertId);
+
+            if (tickets.isEmpty()) {
+                concertDao.delete(concert);
+            } else {
+                concert.setStatut(StatutConcertEnum.ANNULE);
+
+                for (Ticket ticket : tickets) {
+                    ticket.setStatut(StatutTicketEnum.ANNULE);
+                }
+
+                List<Client> clients = ticketDao.findClientsByConcertId(concertId);
+
+                notificationService.notifyClientsConcertCancelled(
+                        clients,
+                        concert
+                );
+            }
+
+            notificationService.notifyOrganisateurConcertCancelled(
+                    concert.getOrganisateur(),
+                    concert
+            );
+
+            EntityManagerHelper.commit();
+
+        } catch (RuntimeException e) {
+            EntityManagerHelper.rollback();
+            throw e;
+        } finally {
+            EntityManagerHelper.closeEntityManager();
         }
     }
 

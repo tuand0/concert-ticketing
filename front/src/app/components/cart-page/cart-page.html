@@ -50,12 +50,18 @@
     <p>Payment: {{ commande.modePaiement }}</p>
 
     @for (ticket of commande.tickets; track ticket.id) {
-    <div class="cart-item">
+    <div class="cart-item"
+         [class.cancelled-ticket]="ticket.statut === 'ANNULE'"
+    >
       <h4>{{ ticket.concertTitre }}</h4>
       <p>{{ ticket.concertArtiste }}</p>
       <p>{{ ticket.concertVille }} - {{ ticket.concertLieu }}</p>
       <p>{{ ticket.concertDate }}</p>
-      <p>Status: {{ ticket.statut }}</p>
+      @if (ticket.statut === 'ANNULE') {
+        <p class="ticket-status cancelled">Ticket annulé</p>
+      } @else {
+        <p class="ticket-status">Status: {{ ticket.statut }}</p>
+      }
       <p>{{ ticket.prix }} €</p>
     </div>
     }

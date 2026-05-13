@@ -78,7 +78,7 @@ export class AuthService {
           email,
           roles,
           token: response.token,
-        })
+        });
       }),
     )
   }
@@ -98,6 +98,10 @@ export class AuthService {
 
   public isOrganisateur(): boolean {
       return this._currentUser()?.roles.includes('organisateur') ?? false;
+  }
+
+  public isClient(): boolean {
+    return this._currentUser()?.roles.includes('client') ?? false;
   }
 
   public getCurrentUserId(): number | null {
