@@ -50,7 +50,6 @@ public class CommandeMapper {
         dto.setId(ticket.getId());
         dto.setPrix(ticket.getPrix());
         dto.setDateAchat(ticket.getDateAchat());
-        dto.setNumeroPlace(ticket.getNumeroPlace());
 
         if (ticket.getStatut() != null) {
             dto.setStatut(ticket.getStatut().name());

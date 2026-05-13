@@ -83,7 +83,7 @@ export class ConcertService {
     }
 
     return this.http
-      .get<ConcertEntity[]>(`${this.baseApiUrl}/concerts`, { params })
+      .get<ConcertEntity[]>(`${this.baseApiUrl}/concerts/publie`, { params })
       .pipe(
         map((entities) => {
           this.loadingSignal.set(false);
@@ -132,6 +132,12 @@ export class ConcertService {
     );
   }
 
+  public getPublishedConcerts(): Observable<ConcertModel[]> {
+    return this.http.get<ConcertEntity[]>(`${this.baseApiUrl}/concerts/publie`).pipe(
+      map(entities => entities.map(entity => this.concertMapper.mapToModel(entity)))
+    );
+  }
+
   public getDraftConcerts(): Observable<ConcertModel[]> {
     return this.http.get<ConcertEntity[]>(
       `${this.baseApiUrl}/concerts/brouillons`
@@ -150,5 +156,9 @@ export class ConcertService {
     ).pipe(
       map(entity => this.concertMapper.mapToModel(entity))
     );
+  }
+
+  public deleteConcert(concertId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseApiUrl}/concerts/${concertId}`);
   }
 }

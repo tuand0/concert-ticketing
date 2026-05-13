@@ -126,8 +126,8 @@ public class TicketService {
             throw new ConflictException("Le concert est complet");
         }
 
-        if (ticketDao.existsByConcert(numeroPlace, concert)) {
-            throw new ConflictException("La place " + numeroPlace + " n'est plus disponible");
+        if (ticketDao.existsByConcert(concert)) {
+            throw new ConflictException("Le ticket n'est plus disponible");
         }
     }
 

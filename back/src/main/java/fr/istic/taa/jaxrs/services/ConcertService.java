@@ -18,11 +18,23 @@ public class ConcertService {
     private final ConcertDao concertDao = new ConcertDao();
     private final OrganisateurDao organisateurDao = new OrganisateurDao();
 
-    public List<Concert> searchConcerts(ConcertSearchDTO searchDTO) {
+    public List<Concert> searchAllConcerts(ConcertSearchDTO searchDTO) {
+        return concertDao.searchAllConcerts(searchDTO);
+    }
+
+    public List<Concert> searchPublishedConcerts(ConcertSearchDTO searchDTO) {
         return concertDao.searchPublishedConcerts(searchDTO);
     }
 
-    public Concert findOne(Long id) {
+    public List<Concert> searchDraftConcerts(ConcertSearchDTO searchDTO) {
+        return concertDao.searchDraftConcerts(searchDTO);
+    }
+
+    public List<Concert> searchDeletedConcerts(ConcertSearchDTO searchDTO) {
+        return concertDao.searchDeletedConcerts(searchDTO);
+    }
+
+    public Concert findOneById(Long id) {
         Concert concert = concertDao.findOne(id);
         if (concert == null) {
             throw new NotFoundException("Concert non trouvé");
@@ -113,22 +125,22 @@ public class ConcertService {
         }
     }
 
-    public List<Concert> findByStatut(StatutConcertEnum statut) {
-        try {
-            EntityManagerHelper.beginTransaction();
-
-            List<Concert> concerts = concertDao.findByStatut(statut);
-
-            EntityManagerHelper.commit();
-            return concerts;
-
-        } catch (RuntimeException e) {
-            EntityManagerHelper.rollback();
-            throw e;
-        } finally {
-            EntityManagerHelper.closeEntityManager();
-        }
-    }
+//    public List<Concert> findByStatut(StatutConcertEnum statut) {
+//        try {
+//            EntityManagerHelper.beginTransaction();
+//
+//            List<Concert> concerts = concertDao.findByStatut(statut);
+//
+//            EntityManagerHelper.commit();
+//            return concerts;
+//
+//        } catch (RuntimeException e) {
+//            EntityManagerHelper.rollback();
+//            throw e;
+//        } finally {
+//            EntityManagerHelper.closeEntityManager();
+//        }
+//    }
 
     public Concert updateStatut(Long concertId, String statutValue) {
         try {

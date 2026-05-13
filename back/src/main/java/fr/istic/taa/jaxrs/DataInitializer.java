@@ -95,7 +95,7 @@ public class DataInitializer {
             Commande commande = createCommande(client);
             manager.persist(commande);
 
-            Ticket ticket = createTicket("A12", concert1, commande);
+            Ticket ticket = createTicket(concert1, commande);
             manager.persist(ticket);
 
             commande.getTickets().add(ticket);
@@ -181,9 +181,8 @@ public class DataInitializer {
         return commande;
     }
 
-    private Ticket createTicket(String numeroPlace, Concert concert, Commande commande) {
+    private Ticket createTicket(Concert concert, Commande commande) {
         Ticket ticket = new Ticket();
-        ticket.setNumeroPlace(numeroPlace);
         ticket.setConcert(concert);
         ticket.setCommande(commande);
         ticket.setDateAchat(LocalDateTime.now());
