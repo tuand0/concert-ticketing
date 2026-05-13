@@ -27,11 +27,8 @@ public class ConcertSearchDTO {
     @Schema(description = "Statut du concert", example = "PUBLIE")
     private String statut;
 
-    @Schema(description = "Date minimale", example = "2026-05-01T00:00:00")
-    private LocalDateTime dateMin;
-
-    @Schema(description = "Date maximale", example = "2026-06-01T00:00:00")
-    private LocalDateTime dateMax;
+    @Schema(description = "Afficher uniquement les concerts avec capacité disponible", example = "true")
+    private Boolean inStockOnly;
 
     @Schema(description = "Prix minimum", example = "20")
     private BigDecimal prixMin;
@@ -51,22 +48,11 @@ public class ConcertSearchDTO {
         this.genre = queryParameters.getFirst("genre");
         this.statut = queryParameters.getFirst("statut");
 
-        // dateMin
-        try {
-            String d = queryParameters.getFirst("dateMin");
-            if (d != null) this.dateMin = LocalDateTime.parse(d);
-        } catch (DateTimeParseException e) {
-            this.dateMin = null;
+        String inStock = queryParameters.getFirst("inStockOnly");
+        if (inStock != null) {
+            this.inStockOnly = Boolean.parseBoolean(inStock);
         }
-
-        // dateMax
-        try {
-            String d = queryParameters.getFirst("dateMax");
-            if (d != null) this.dateMax = LocalDateTime.parse(d);
-        } catch (DateTimeParseException e) {
-            this.dateMax = null;
-        }
-
+        
         // prixMin
         try {
             String p = queryParameters.getFirst("prixMin");
@@ -89,9 +75,9 @@ public class ConcertSearchDTO {
     public String getVille() { return ville; }
     public String getLieu() { return lieu; }
     public String getGenre() { return genre; }
-    public String getStatut() { return statut; }
-    public LocalDateTime getDateMin() { return dateMin; }
-    public LocalDateTime getDateMax() { return dateMax; }
+    public Boolean getInStockOnly() {
+        return inStockOnly;
+    }
     public BigDecimal getPrixMin() { return prixMin; }
     public BigDecimal getPrixMax() { return prixMax; }
 }

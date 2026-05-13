@@ -93,18 +93,10 @@ public class ConcertDao extends AbstractJpaDao<Long, Concert> {
             }
         }
 
-        if (searchDTO.getDateMin() != null) {
-            predicates.add(
-                    cb.greaterThanOrEqualTo(root.get("date"), searchDTO.getDateMin())
-            );
+        if (Boolean.TRUE.equals(searchDTO.getInStockOnly())) {
+            predicates.add(cb.greaterThan(root.get("capacite"), 0));
         }
-
-        if (searchDTO.getDateMax() != null) {
-            predicates.add(
-                    cb.lessThanOrEqualTo(root.get("date"), searchDTO.getDateMax())
-            );
-        }
-
+        
         if (searchDTO.getPrixMin() != null) {
             predicates.add(
                     cb.greaterThanOrEqualTo(root.get("prix"), searchDTO.getPrixMin())

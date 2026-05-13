@@ -84,8 +84,7 @@ public class ConcertResource {
     @Parameter(name = "lieu", description = "Lieu du concert", in = ParameterIn.QUERY)
     @Parameter(name = "genre", description = "Genre musical", in = ParameterIn.QUERY)
     @Parameter(name = "statut", description = "Statut du concert", in = ParameterIn.QUERY)
-    @Parameter(name = "dateMin", description = "Date minimale", in = ParameterIn.QUERY)
-    @Parameter(name = "dateMax", description = "Date maximale", in = ParameterIn.QUERY)
+    @Parameter(name = "inStockOnly", description = "Only concert avec capacite positive", in = ParameterIn.QUERY)
     @Parameter(name = "prixMin", description = "Prix minimum", in = ParameterIn.QUERY)
     @Parameter(name = "prixMax", description = "Prix maximum", in = ParameterIn.QUERY)
     @ApiResponse(
@@ -95,6 +94,8 @@ public class ConcertResource {
     )
     public List<Concert> findConcerts(@Parameter(hidden = true) @Context UriInfo info) {
         ConcertSearchDTO searchDTO = new ConcertSearchDTO(info.getQueryParameters());
+        System.out.println("Query params = " + info.getQueryParameters());
+        System.out.println("inStockOnly = " + searchDTO.getInStockOnly());
         return concertService.searchPublishedConcerts(searchDTO);
     }
 
