@@ -94,3 +94,23 @@ ng serve
 
 Le frontend est disponible sur :
 http://localhost:4200
+
+## 3 comptes disponible depuis Backend -> DataInitializer:
+
+### Admin
+
+admin@yopmail.com
+
+passw0rd
+
+### Organisateur
+
+organisateur@yopmail.com
+
+passw0rd
+
+### Client
+
+client@yopmail.com
+
+passw0rd
