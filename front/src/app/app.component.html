@@ -21,6 +21,7 @@
           <a routerLink="/admin/concerts" routerLinkActive="active">Manage Concerts</a>
           </nav>
       }
+      <p-button label="Notification" icon="pi pi-envelope" (click)="openNotifications()" [raised]="true"/>
       <p-button (click)="authService.logout()" label="Logout" icon="pi pi-sign-out" severity="danger" />
     } @else {
       <nav>

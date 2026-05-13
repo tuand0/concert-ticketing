@@ -1,6 +1,6 @@
 import {Injectable, signal} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {map, Observable} from 'rxjs';
+import { Observable} from 'rxjs';
 import {CommandeModel} from '../models/commande.model';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class CommandeService {
       `${this.baseApiUrl}/client/${clientId}`
     );
   }
-  
+
   public getCart(clientId: number): Observable<CommandeModel> {
     return this.http.get<CommandeModel>(
       `${this.baseApiUrl}/cart?clientId=${clientId}`

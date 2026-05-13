@@ -1,11 +1,13 @@
 package fr.istic.taa.jaxrs.services;
 
-import fr.istic.taa.jaxrs.dao.ConcertDao;
-import fr.istic.taa.jaxrs.dao.OrganisateurDao;
+import fr.istic.taa.jaxrs.dao.*;
 import fr.istic.taa.jaxrs.dao.generic.EntityManagerHelper;
+import fr.istic.taa.jaxrs.domain.Client;
 import fr.istic.taa.jaxrs.domain.Concert;
+import fr.istic.taa.jaxrs.domain.Ticket;
 import fr.istic.taa.jaxrs.domain.enums.GenreEnum;
 import fr.istic.taa.jaxrs.domain.enums.StatutConcertEnum;
+import fr.istic.taa.jaxrs.domain.enums.StatutTicketEnum;
 import fr.istic.taa.jaxrs.dto.ConcertCreateDTO;
 import fr.istic.taa.jaxrs.dto.ConcertSearchDTO;
 import jakarta.ws.rs.NotFoundException;
@@ -17,6 +19,10 @@ import java.util.List;
 public class ConcertService {
     private final ConcertDao concertDao = new ConcertDao();
     private final OrganisateurDao organisateurDao = new OrganisateurDao();
+    private final TicketDao ticketDao = new TicketDao();
+    private final ClientDao clientDao = new ClientDao();
+    private final NotificationService notificationService = new NotificationService();
+    private final AdministrateurDao administrateurDao = new AdministrateurDao();
 
     public List<Concert> searchAllConcerts(ConcertSearchDTO searchDTO) {
         return concertDao.searchAllConcerts(searchDTO);
@@ -67,6 +73,11 @@ public class ConcertService {
             concert.setStatut(StatutConcertEnum.BROUILLON);
 
             concertDao.save(concert);
+
+            notificationService.notifyAdminsNewDraftConcert(
+                    administrateurDao.findAllActive(),
+                    concert
+            );
 
             EntityManagerHelper.commit();
             return concert.getId();
@@ -125,22 +136,6 @@ public class ConcertService {
         }
     }
 
-//    public List<Concert> findByStatut(StatutConcertEnum statut) {
-//        try {
-//            EntityManagerHelper.beginTransaction();
-//
-//            List<Concert> concerts = concertDao.findByStatut(statut);
-//
-//            EntityManagerHelper.commit();
-//            return concerts;
-//
-//        } catch (RuntimeException e) {
-//            EntityManagerHelper.rollback();
-//            throw e;
-//        } finally {
-//            EntityManagerHelper.closeEntityManager();
-//        }
-//    }
 
     public Concert updateStatut(Long concertId, String statutValue) {
         try {
@@ -166,6 +161,36 @@ public class ConcertService {
 
             concert.setStatut(statut);
 
+            if (statut == StatutConcertEnum.ANNULE) {
+                notificationService.notifyOrganisateurConcertCancelled(
+                        concert.getOrganisateur(),
+                        concert
+                );
+                
+                List<Ticket> tickets = ticketDao.findByConcertId(concertId);
+
+                for (Ticket ticket : tickets) {
+                    ticket.setStatut(StatutTicketEnum.ANNULE);
+                }
+
+                List<Client> clients = ticketDao.findClientsByConcertId(concertId);
+
+                notificationService.notifyClientsConcertCancelled(
+                        clients,
+                        concert
+                );
+            } else {
+                notificationService.notifyOrganisateurConcertConfirmed(
+                        concert.getOrganisateur(),
+                        concert
+                );
+
+                notificationService.notifyClientsNewPublishedConcert(
+                        clientDao.findAll(),
+                        concert
+                );
+            }
+
             EntityManagerHelper.commit();
             return concert;
 
@@ -187,7 +212,29 @@ public class ConcertService {
                 throw new NotFoundException("Concert non trouvé");
             }
 
-            concertDao.delete(concert);
+            List<Ticket> tickets = ticketDao.findByConcertId(concertId);
+
+            if (tickets.isEmpty()) {
+                concertDao.delete(concert);
+            } else {
+                concert.setStatut(StatutConcertEnum.ANNULE);
+
+                for (Ticket ticket : tickets) {
+                    ticket.setStatut(StatutTicketEnum.ANNULE);
+                }
+
+                List<Client> clients = ticketDao.findClientsByConcertId(concertId);
+
+                notificationService.notifyClientsConcertCancelled(
+                        clients,
+                        concert
+                );
+            }
+
+            notificationService.notifyOrganisateurConcertCancelled(
+                    concert.getOrganisateur(),
+                    concert
+            );
 
             EntityManagerHelper.commit();
 

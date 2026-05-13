@@ -6,10 +6,8 @@ import java.time.LocalDateTime;
 public class TicketDTO {
 
     private Long id;
-    private String numeroTicket;
     private BigDecimal prix;
     private LocalDateTime dateAchat;
-    private String numeroPlace;
     private String statut;
 
     private Long concertId;
@@ -23,20 +21,12 @@ public class TicketDTO {
         return id;
     }
 
-    public String getNumeroTicket() {
-        return numeroTicket;
-    }
-
     public BigDecimal getPrix() {
         return prix;
     }
 
     public LocalDateTime getDateAchat() {
         return dateAchat;
-    }
-
-    public String getNumeroPlace() {
-        return numeroPlace;
     }
 
     public String getStatut() {
@@ -71,20 +61,12 @@ public class TicketDTO {
         this.id = id;
     }
 
-    public void setNumeroTicket(String numeroTicket) {
-        this.numeroTicket = numeroTicket;
-    }
-
     public void setPrix(BigDecimal prix) {
         this.prix = prix;
     }
 
     public void setDateAchat(LocalDateTime dateAchat) {
         this.dateAchat = dateAchat;
-    }
-
-    public void setNumeroPlace(String numeroPlace) {
-        this.numeroPlace = numeroPlace;
     }
 
     public void setStatut(String statut) {

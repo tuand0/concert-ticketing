@@ -45,14 +45,6 @@ public abstract class Utilisateur implements Serializable {
     public Utilisateur() {
     }
 
-    public void seConnecter() {
-        // logique à ajouter plus tard
-    }
-
-    public void modifierProfil() {
-        // logique à ajouter plus tard
-    }
-
     public Long getId() {
         return id;
     }
@@ -111,5 +103,10 @@ public abstract class Utilisateur implements Serializable {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public void addNotification(Notification notification) {
+        this.notifications.add(notification);
+        notification.getUtilisateurs().add(this);
     }
 }

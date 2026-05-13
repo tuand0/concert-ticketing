@@ -54,10 +54,8 @@ public class TicketService {
                 throw new NotFoundException("Concert non trouvé");
             }
 
-            String numeroPlace = dto.getNumeroPlace().trim();
-
             validateConcert(concert);
-            validateSeatAvailability(concert, numeroPlace);
+            validateSeatAvailability(concert);
 
             Commande commande = buildCommande(client, dto.getModePaiement());
             commandeDao.save(commande);
@@ -92,10 +90,6 @@ public class TicketService {
         if (dto.getConcertId() == null) {
             throw new BadRequestException("concertId est obligatoire");
         }
-
-        if (dto.getNumeroPlace() == null || dto.getNumeroPlace().isBlank()) {
-            throw new BadRequestException("Le numéro de place est obligatoire");
-        }
     }
 
     private void validateConcert(Concert concert) {
@@ -120,13 +114,13 @@ public class TicketService {
         }
     }
 
-    private void validateSeatAvailability(Concert concert, String numeroPlace) {
+    private void validateSeatAvailability(Concert concert) {
         long nbTicketsVendus = ticketDao.countByConcert(concert);
         if (nbTicketsVendus >= concert.getCapacite()) {
             throw new ConflictException("Le concert est complet");
         }
 
-        if (ticketDao.existsByConcert(concert)) {
+        if (ticketDao.existsByConcertId(concert.getId())) {
             throw new ConflictException("Le ticket n'est plus disponible");
         }
     }
