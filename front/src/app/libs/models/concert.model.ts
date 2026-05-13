@@ -36,8 +36,6 @@ export interface ConcertFilter {
   lieu?: string;
   genre?: string;
   statut?: string;
-  dateMin?: string;
-  dateMax?: string;
   prixMin?: number;
   prixMax?: number;
   inStock?: boolean;

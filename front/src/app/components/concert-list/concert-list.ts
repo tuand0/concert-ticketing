@@ -46,7 +46,7 @@ export class ConcertList implements OnInit {
   // Filter state
   searchTerm = '';
   selectedGenre = '';
-  inStockOnly = false;
+  public inStockOnly = false;
   selectedArtiste = '';
   selectedVille = '';
   selectedLieu = '';
@@ -124,14 +124,6 @@ export class ConcertList implements OnInit {
 
     if (this.prixMax !== undefined && this.prixMax !== null) {
       filter.prixMax = this.prixMax;
-    }
-
-    if (this.dateMin) {
-      filter.dateMin = this.dateMin;
-    }
-
-    if (this.dateMax) {
-      filter.dateMax = this.dateMax;
     }
 
     this.concertService

@@ -68,11 +68,8 @@ export class ConcertService {
       if (filter.statut) {
         params = params.set('statut', filter.statut);
       }
-      if (filter.dateMin) {
-        params = params.set('dateMin', filter.dateMin);
-      }
-      if (filter.dateMax) {
-        params = params.set('dateMax', filter.dateMax);
+      if (filter.inStock) {
+        params = params.set('inStockOnly', 'true');
       }
       if (filter.prixMin !== undefined) {
         params = params.set('prixMin', filter.prixMin.toString());

@@ -12,6 +12,5 @@ export interface ConcertEntity {
   capacite: number;
   statut: string;
   imageUrl: string;
-  inStock: boolean;
 }
 
