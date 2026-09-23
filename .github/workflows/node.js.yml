@@ -14,11 +14,19 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    # Set the default directory for all 'run' commands in this job
+    defaults:
+      run:
+        working-directory: ./frontend
+        
     strategy:
       matrix:
         node-version: [24.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+        cache: 'npm'
+        # Tell the cache exactly where to find the lock file
+        cache-dependency-path: front/package-lock.json
+        
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
