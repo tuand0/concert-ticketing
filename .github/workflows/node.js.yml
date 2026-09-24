@@ -17,15 +17,15 @@ jobs:
     # Set the default directory for all 'run' commands in this job
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: ./front
         
     strategy:
       matrix:
         node-version: [24.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        cache: 'npm'
+      
         # Tell the cache exactly where to find the lock file
-        cache-dependency-path: front/package-lock.json
+        cache-dependency-path: ./front/package-lock.json
         
     steps:
     - uses: actions/checkout@v4
